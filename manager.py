@@ -20,10 +20,9 @@ args = parser.parse_args()
 
 if args.username and args.password:
     manager_details = {"username": args.username, "password": args.password}
-    with open('manager.json', 'w') as f:
-        file_path=Path('manager.json')
-        if is_json_empty('manager.json') or not (file_path.exists()):
+    with open('data/manager.json', 'w') as f:
+        file_path=Path('data/manager.json')
+        if is_json_empty('data/manager.json') or not (file_path.exists()):
             json.dump(manager_details, f, indent=4)
         else:
             print("The manager is already registered")
-
