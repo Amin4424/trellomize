@@ -1,6 +1,7 @@
 import json
 import libs.view as view
 import libs.get_input as input
+import libs.userhandling as uh
 from pathlib import Path
 import re
 import uuid
@@ -41,6 +42,7 @@ class User:
             else:
                 break
         new_user = User(name, username, password, email)
+        uh.Program.user_logging_in(username)
 
     @staticmethod
     def sign_in():
@@ -50,15 +52,15 @@ class User:
             view.sign_in_password()
             password=input.get_string()
             encoded_password = encode(password)
-            if Path ("data/manager.json").exists():
-                try:
-                    with open("data/manager.json",mode='r') as feedsjson:
-                        user = json.load(feedsjson)
-                        if user.get(username) == encoded_password:
-                            #TODO manager section
-                            pass
-                except json.JSONDecodeError:
-                    pass
+            # if Path ("data/manager.json").exists():
+            #     try:
+            #         with open("data/manager.json",mode='r') as feedsjson:
+            #             user = json.load(feedsjson)
+            #             if user.get(username) == encoded_password:
+            #                 #TODO manager section
+            #                 pass
+            #     except json.JSONDecodeError:
+            #         pass
                     
             if Path("data/users.json").exists():
                 try:
@@ -66,9 +68,7 @@ class User:
                         users = json.load(feedsjson)
                         for user in users:
                             if user['username'] == username and user['password'] == encoded_password:
-                                print("u signed in")
-                                break
-                                #It doesn't leave the loop right now but it should call another function which is related to that section
+                                uh.Program.user_logging_in(username)
                             elif user['username'] == username and user['password'] != encoded_password:
                                 view.invalid_username_password()
                             
@@ -93,3 +93,5 @@ class User:
             entry['user_id'] = user.user_id
             users.append(entry)
             json.dump(users, feedsjson , indent=4)
+    
+    
