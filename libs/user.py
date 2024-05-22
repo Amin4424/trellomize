@@ -60,7 +60,7 @@ class User:
             #                 #TODO manager section
             #                 pass
             #     except json.JSONDecodeError:
-            #         pass
+            #         pass  
                     
             if Path("data/users.json").exists():
                 try:
@@ -74,7 +74,7 @@ class User:
                             
                 except json.JSONDecodeError:
                     print("JSONDecode#Error: Could not decode the JSON file")
-
+                    
     @staticmethod
     def add_user_to_json(user):
         users = []

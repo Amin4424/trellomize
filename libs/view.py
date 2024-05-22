@@ -35,3 +35,6 @@ def menu_after_log():
     rprint("1.Create a project")
     rprint("2.Delete a project")
     rprint("3.Work on a project")
+def menu_for_manager():
+    os.system('cls')
+    
