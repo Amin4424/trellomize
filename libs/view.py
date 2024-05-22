@@ -1,4 +1,5 @@
 import os
+from rich import print as rprint
 def wrong_input():
     print("Please enter a valid input!")
 
@@ -25,3 +26,15 @@ def sign_in_username():
     print("Please enter your username:")
 def sign_in_password():
     print("Please enter your password:")
+def remove_member_message():
+    print("Please choose a user to remove from application :")
+def logging_in_message(username):
+    print("Welcome dear "+username)
+def menu_after_log():
+    os.system('cls')
+    rprint("1.Create a project")
+    rprint("2.Delete a project")
+    rprint("3.Work on a project")
+def menu_for_manager():
+    os.system('cls')
+    

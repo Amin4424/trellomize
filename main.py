@@ -10,13 +10,13 @@ rprint("2.Sign up")
 
 while True:
     rprint("Your choice: ")
-    option = int(input())
-    if option not in [1,2]:
+    option = input()
+    if option not in ['1','2']:
         rprint("Invalid input . Please try again .")
     else:
         break
 
-if option == 1:
+if option == '1':
     User.sign_in()
-if option == 2:
+if option == '2':
     User.sign_up()
