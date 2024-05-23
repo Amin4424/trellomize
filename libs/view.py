@@ -37,4 +37,10 @@ def menu_after_log():
     rprint("3.Work on a project")
 def menu_for_manager():
     os.system('cls')
+    rprint("1.Deactive a user")
+    rprint("2.active a user")
+    rprint("3.delete a user")
+    rprint("4.Loging out")
     
+def rusure():
+    print('Are you sure?(y/n)')
