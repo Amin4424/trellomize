@@ -39,7 +39,7 @@ class Project:
             'list_of_members': list_of_members
         }
             datas.append(data)
-            json.dump(datas, projects, indent=4)            
+            json.dump(datas, projects, indent=4)
     def delete_project(username):
         if Path("data/projects.json").exists():
             with open("data/projects.json", mode='r') as existing_projects:
@@ -54,7 +54,7 @@ class Project:
                             rprint("Enter [Y/n]")
                             choice = input.get_string()
                             if choice.lower() in ['y', 'yes']:
-                                datas.remove(item)  
+                                datas.remove(item)
                                 rprint("The project successfuly deleted")
                                 time.sleep(3)
                                 with open("data/projects.json", mode='w') as updated_projects:
@@ -75,7 +75,7 @@ class Project:
                     time.sleep(3)
                     uh.Program.menu_after_logging_user(username)
     def work_on_project():
-        pass            
+        pass
     def add_member_to_project(username):
         os.system('cls')
         rprint("Type a username to add the user to the project:")

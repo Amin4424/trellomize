@@ -67,7 +67,7 @@ class Program :
     def delete_project(username):
         view.get_name_of_project()
         project.Project.delete_project(username)
-       
+
     def working_on_project(username):
         view.menu_work_on_project()
         choice = input.get_string()
