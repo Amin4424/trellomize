@@ -37,4 +37,13 @@ def menu_after_log():
     rprint("3.Work on a project")
 def menu_for_manager():
     os.system('cls')
-    
+def get_name_of_project():
+    rprint('Enter the name of the project that you want to remove')
+def menu_work_on_project():
+    os.system('cls')
+    rprint("1.Add a user to project")
+    rprint("2.Remove a user from a project")
+    rprint("3.Add an assignment for project")
+    rprint("4.Remove an assignment from project")
+    rprint("5.Assign an assignment to a user")
+    # rprint("6.Work on assignment")
