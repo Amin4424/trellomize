@@ -26,8 +26,10 @@ class Program :
             if choice == '1':
                 Program.creating_project(username)
             elif choice == '2':
+                Program.delete_project(username)
                 break
             elif choice == '3':
+                Program.working_on_project(username)
                 break
             else:
                 print("Invalid input.")
@@ -155,8 +157,16 @@ class Program :
                         break
             else:
                 break  
-
         project.Project.create_project(username, project_name, project_title, project_ID)
-    
-                        
-        
+    def delete_project(username):
+        view.get_name_of_project()
+        project.Project.delete_project(username)
+
+    def working_on_project(username):
+        view.menu_work_on_project()
+        choice = input.get_string()
+        while True:
+            if choice =='1':
+                project.Project.add_member_to_project(username)
+            if choice =='2':
+                project.Project.remove_member_to_project(username)
