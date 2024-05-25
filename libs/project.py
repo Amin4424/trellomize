@@ -8,8 +8,7 @@ import re
 import uuid
 import time
 import os
-from datetime import datetime
-#datetime.now().strftime("%Y:%m:%d:%H:%M:%S")
+
 class Project:
     def __init__(self,name,title,leadername,ID,list_of_members):
         self.leadername=leadername
@@ -169,7 +168,7 @@ class Project:
                                     temp = project['list_of_members']
                                     if name_to_remove in temp:
                                         temp.remove(name_to_remove)
-                                        project['list_of_members'] = temp  # Assign the updated list back to the project
+                                        project['list_of_members'] = temp  
                                         with open("data/projects.json", mode='w') as updated_projects_file:
                                             json.dump(projects, updated_projects_file, indent=4)
                                         is_deleted = True
