@@ -18,12 +18,13 @@ def encode(password):
     return ''.join(format(ord(char), '02x') for char in password)
 
 class User:
-    def __init__(self, name, username, password, email):
+    def __init__(self, name, username, password, email, is_active=True):
         self.name = name
         self.username = username
         self.password = password
         self.email = email
         self.user_id = str(uuid.uuid4())
+        self.is_active = is_active
         User.add_user_to_json(self)
 
     @staticmethod
@@ -52,15 +53,14 @@ class User:
             view.sign_in_password()
             password=input.get_string()
             encoded_password = encode(password)
-            # if Path ("data/manager.json").exists():
-            #     try:
-            #         with open("data/manager.json",mode='r') as feedsjson:
-            #             user = json.load(feedsjson)
-            #             if user.get(username) == encoded_password:
-            #                 #TODO manager section
-            #                 pass
-            #     except json.JSONDecodeError:
-            #         pass  
+            if Path ("data/manager.json").exists():
+                    with open("data/manager.json",mode='r') as feedsjson:
+                        user = json.load(feedsjson)
+                        if len(user) != 0:
+                            if user['username']==username and user['password']==password:
+                                uh.Program.manager_logging_in(username)
+                            else:
+                                view.invalid_username_password()
                     
             if Path("data/users.json").exists():
                 try:
@@ -91,6 +91,7 @@ class User:
             entry['password'] = encode(user.password)
             entry['email'] = user.email
             entry['user_id'] = user.user_id
+            entry['is_active'] = user.is_active
             users.append(entry)
             json.dump(users, feedsjson , indent=4)
     

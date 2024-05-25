@@ -37,6 +37,14 @@ def menu_after_log():
     rprint("3.Work on a project")
 def menu_for_manager():
     os.system('cls')
+    rprint("1.Deactive a user")
+    rprint("2.active a user")
+    rprint("3.delete a user")
+    rprint("4.Loging out")
+    
+def rusure():
+    print('Are you sure?(y/n)')
+
 def get_name_of_project():
     rprint('Enter the name of the project that you want to remove')
 def menu_work_on_project():
