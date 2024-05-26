@@ -5,6 +5,9 @@ import libs.userhandling as uh
 from pathlib import Path
 import re
 import uuid
+from hashlib import sha256
+
+salt = "trlumiz"
 
 def is_valid_email(email):
     pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
@@ -13,9 +16,6 @@ def is_valid_email(email):
         return True
     else:
         return False
-
-def encode(password):
-    return ''.join(format(ord(char), '02x') for char in password)
 
 class User:
     def __init__(self, name, username, password, email, is_active=True):
@@ -46,7 +46,7 @@ class User:
                 except json.JSONDecodeError:
                     print("JSONDecode#Error: Could not decode the JSON file")
         view.get_password()
-        password = input.get_string()
+        password = sha256(input.get_string().encode('utf-8')).hexdigest()
         view.get_email()
         while True:
             email=input.get_string()
@@ -55,7 +55,6 @@ class User:
             else:
                 break
         new_user = User(name, username, password, email)
-        uh.Program.user_logging_in(username)
 
     @staticmethod
     def sign_in():
@@ -63,8 +62,7 @@ class User:
             view.sign_in_username()
             username=input.get_username()
             view.sign_in_password()
-            password=input.get_string()
-            encoded_password = encode(password)
+            password = sha256(input.get_string().encode('utf-8')).hexdigest()
             if Path ("data/manager.json").exists():
                     with open("data/manager.json",mode='r') as feedsjson:
                         user = json.load(feedsjson)
@@ -79,9 +77,9 @@ class User:
                     with open("data/users.json",mode='r') as feedsjson:
                         users = json.load(feedsjson)
                         for user in users:
-                            if user['username'] == username and user['password'] == encoded_password:
+                            if user['username'] == username and user['password'] == password:
                                 uh.Program.user_logging_in(username)
-                            elif user['username'] == username and user['password'] != encoded_password:
+                            elif user['username'] == username and user['password'] != password+salt:
                                 view.invalid_username_password()
                             
                 except json.JSONDecodeError:
@@ -100,7 +98,7 @@ class User:
             entry = {}
             entry['name'] = user.name
             entry['username'] = user.username
-            entry['password'] = encode(user.password)
+            entry['password'] = user.password
             entry['email'] = user.email
             entry['user_id'] = user.user_id
             entry['is_active'] = user.is_active

@@ -2,17 +2,9 @@
     {
         "name": "a",
         "username": "a",
-        "password": "61",
+        "password": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
         "email": "a@a.a",
-        "user_id": "1b2e8ec3-39dc-4ff8-9a4f-328daa8d99a7",
-        "is_active": true
-    },
-    {
-        "name": "b",
-        "username": "b",
-        "password": "62",
-        "email": "b@b.b",
-        "user_id": "c4a19176-8e9f-402e-9b58-141f3dca5115",
+        "user_id": "0cecc81a-33cc-4148-8d94-d1d26de66140",
         "is_active": true
     }
 ]
