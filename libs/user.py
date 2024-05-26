@@ -9,6 +9,10 @@ from hashlib import sha256
 
 salt = "trlumiz"
 
+def pass_hash(password):
+    password = password + salt
+    return sha256(password.encode('utf-8')).hexdigest()
+
 def is_valid_email(email):
     pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
     match= re.match(pattern,email)
@@ -46,7 +50,7 @@ class User:
                 except json.JSONDecodeError:
                     print("JSONDecode#Error: Could not decode the JSON file")
         view.get_password()
-        password = sha256(input.get_string().encode('utf-8')).hexdigest()
+        password = pass_hash(input.get_string())
         view.get_email()
         while True:
             email=input.get_string()
@@ -62,7 +66,7 @@ class User:
         view.sign_in_username()
         username=input.get_username()
         view.sign_in_password()
-        password = sha256(input.get_string().encode('utf-8')).hexdigest()
+        password = pass_hash(input.get_string())
         if Path ("data/manager.json").exists():
                 with open("data/manager.json",mode='r') as feedsjson:
                     user = json.load(feedsjson)
