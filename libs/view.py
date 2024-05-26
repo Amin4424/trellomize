@@ -34,15 +34,15 @@ def logging_in_message(username):
     print("Welcome dear "+username)
 def menu_after_log():
     os.system('cls')
-    rprint("1.Create a project")
-    rprint("2.Delete a project")
-    rprint("3.Work on a project")
+    rprint("1.[green]Create a project")
+    rprint("2.[red]Delete a project")
+    rprint("3.[blue]Work on a project")
     rprint("4.Loging out")
 def menu_for_manager():
     os.system('cls')
-    rprint("1.Deactive a user")
-    rprint("2.active a user")
-    rprint("3.delete a user")
+    rprint("1.[yellow]Deactive a user")
+    rprint("2.[green]Active a user")
+    rprint("3.[red]Delete a user")
     rprint("4.Loging out")
     
 def rusure():
@@ -52,17 +52,17 @@ def get_name_of_project():
     rprint('Enter the name of the project that you want to remove')
 def menu_work_on_project():
     os.system('cls')
-    rprint("1.Add a user to project")
-    rprint("2.Remove a user from a project")
-    rprint("3.Add an assignment for project")
-    rprint("4.Remove an assignment from project")
+    rprint("[green]1.Add a user to project")
+    rprint("2.[red]Remove a user from a project")
+    rprint("[green]3.Add an assignment for project")
+    rprint("4.[red]Remove an assignment from project")
     rprint("5.Assign an assignment to a user")
     # rprint("6.Work on assignment")
 
 def duplicated_user():
-    rprint("This user has already exist!")
+    rprint("[yellow]This user has already exist!")
     
 def secces_sign_up():
-    rprint("Your account has been created successfully!")
-    rprint("You can sign in with your username and password.")
+    rprint("[green]Your account has been created successfully!")
+    rprint("[green]You can sign in with your username and password.")
     sleep(2)
