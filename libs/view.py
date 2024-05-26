@@ -55,3 +55,6 @@ def menu_work_on_project():
     rprint("4.Remove an assignment from project")
     rprint("5.Assign an assignment to a user")
     # rprint("6.Work on assignment")
+
+def duplicated_user():
+    rprint("This user has already exist!")
