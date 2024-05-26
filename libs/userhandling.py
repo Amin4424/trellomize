@@ -31,6 +31,8 @@ class Program :
             elif choice == '3':
                 Program.working_on_project(username)
                 break
+            elif choice == '4':
+                break
             else:
                 print("Invalid input.")
     def manager_logging_in(username):

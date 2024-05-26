@@ -1,4 +1,5 @@
 import os
+from time import sleep
 from rich import print as rprint
 def wrong_input():
     print("Please enter a valid input!")
@@ -22,6 +23,7 @@ def invalid_email():
     print("Your email is not valid. Please try again:")
 def invalid_username_password():
     print("Your username or password is not valid.Please try again.")
+    sleep(1)
 def sign_in_username():
     print("Please enter your username:")
 def sign_in_password():
@@ -35,6 +37,7 @@ def menu_after_log():
     rprint("1.Create a project")
     rprint("2.Delete a project")
     rprint("3.Work on a project")
+    rprint("4.Loging out")
 def menu_for_manager():
     os.system('cls')
     rprint("1.Deactive a user")
@@ -58,3 +61,8 @@ def menu_work_on_project():
 
 def duplicated_user():
     rprint("This user has already exist!")
+    
+def secces_sign_up():
+    rprint("Your account has been created successfully!")
+    rprint("You can sign in with your username and password.")
+    sleep(2)

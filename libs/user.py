@@ -55,35 +55,35 @@ class User:
             else:
                 break
         new_user = User(name, username, password, email)
+        view.secces_sign_up()
 
     @staticmethod
     def sign_in():
-        while True:
-            view.sign_in_username()
-            username=input.get_username()
-            view.sign_in_password()
-            password = sha256(input.get_string().encode('utf-8')).hexdigest()
-            if Path ("data/manager.json").exists():
-                    with open("data/manager.json",mode='r') as feedsjson:
-                        user = json.load(feedsjson)
-                        if len(user) != 0:
-                            if user['username']==username and user['password']==password:
-                                uh.Program.manager_logging_in(username)
-                            else:
-                                view.invalid_username_password()
-                    
-            if Path("data/users.json").exists():
-                try:
-                    with open("data/users.json",mode='r') as feedsjson:
-                        users = json.load(feedsjson)
-                        for user in users:
-                            if user['username'] == username and user['password'] == password:
-                                uh.Program.user_logging_in(username)
-                            elif user['username'] == username and user['password'] != password+salt:
-                                view.invalid_username_password()
-                            
-                except json.JSONDecodeError:
-                    print("JSONDecode#Error: Could not decode the JSON file")
+        view.sign_in_username()
+        username=input.get_username()
+        view.sign_in_password()
+        password = sha256(input.get_string().encode('utf-8')).hexdigest()
+        if Path ("data/manager.json").exists():
+                with open("data/manager.json",mode='r') as feedsjson:
+                    user = json.load(feedsjson)
+                    if len(user) != 0:
+                        if user['username']==username and user['password']==password:
+                            uh.Program.manager_logging_in(username)
+                        else:
+                            view.invalid_username_password()
+                
+        if Path("data/users.json").exists():
+            try:
+                with open("data/users.json",mode='r') as feedsjson:
+                    users = json.load(feedsjson)
+                    for user in users:
+                        if user['username'] == username and user['password'] == password:
+                            uh.Program.user_logging_in(username)
+                        elif user['username'] == username and user['password'] != password+salt:
+                            view.invalid_username_password()
+                        
+            except json.JSONDecodeError:
+                print("JSONDecode#Error: Could not decode the JSON file")
                     
     @staticmethod
     def add_user_to_json(user):
