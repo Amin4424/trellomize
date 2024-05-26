@@ -46,4 +46,5 @@ def menu_work_on_project():
     rprint("3.Add an assignment for project")
     rprint("4.Remove an assignment from project")
     rprint("5.Assign an assignment to a user")
-    # rprint("6.Work on assignment")
+    rprint("6.Remove assignment from user")
+    rprint("7.Work on assignment")

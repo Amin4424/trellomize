@@ -217,35 +217,39 @@ class Task:
                         os.system('cls')
                         counter=0
                         while True:
+                            counter=0
                             for task in tasks:
                                 if task['name_of_project'] == name_of_project:
                                     counter+=1
-                                    rprint(str(counter) + '. ' + task['topic'])
+                                    rprint(str(counter) + '. ' + task['topic'] +" ID :" + task['id'])
                             if counter == 0:
                                 os.system('cls')
                                 rprint("The project you selected has no task to do")
                                 time.sleep(3)
                                 uh.Program.menu_after_logging_user(username)
-                            topic_name = input('Choose the task to be assigned to a member ')
-                            if any (topic_name == task['topic'] for task in tasks):
+                            choice = input('Enter your choice (num) : ')
+                            if (choice.isdigit()) or int(choice) in range(1, counter + 1):
+                                counter=0
                                 for task in tasks:
-                                    if topic_name == task['topic']:
-                                        list_of_members = task['assignees']
-                                        if member_name in list_of_members:
-                                            os.system('cls')
-                                            print("User already has that task")
-                                            time.sleep(3)
-                                            break
-                                        list_of_members.append(str(member_name))
-                                        with open("data/assignments.json" , mode ='w') as updated_file:
-                                            json.dump(tasks , updated_file , indent=4)
+                                    if task['name_of_project'] == name_of_project:
+                                        counter+=1
+                                        if choice == str(counter):
+                                            list_of_members = task['assignees']
+                                            if member_name in list_of_members:
+                                                os.system('cls')
+                                                print("User already has that task")
+                                                time.sleep(3)
+                                                uh.Program.menu_after_logging_user(username)
+                                            list_of_members.append(str(member_name))
+                                            with open("data/assignments.json" , mode ='w') as updated_file:
+                                                json.dump(tasks , updated_file , indent=4)
                                 os.system('cls')
                                 rprint("Task has been assigned .")
                                 time.sleep(3)                                
                                 uh.Program.menu_after_logging_user(username)
                             else:
                                 os.system('cls')
-                                rprint("Please enter a valid name .")
+                                rprint("Please enter a valid input .")
                                 time.sleep(3)
                 except json.JSONDecodeError:
                     os.system('cls')
@@ -256,7 +260,77 @@ class Task:
             rprint("File not found")
             time.sleep(3)
             uh.Program.menu_after_logging_user(username)
-        
+    
+    def remove_assignment_from_member(username):
+        if Path("data/projects.json").exists():
+            with open("data/projects.json" , mode='r') as feeds:
+                try:
+                    projects = json.load(feeds)
+                    while True:
+                        os.system('cls')
+                        counter=0
+                        for project in projects:
+                            if project['leader'] == username:
+                                counter+=1
+                                rprint(str(counter) + '. ' + project['name'])
+                        name_of_project = input('Enter the name of the project : ')
+                        if any (project['name'] == name_of_project for project in projects):
+                            if Path("data/projects.json").exists():
+                                with open("data/assignments.json" , mode='r') as task_file:
+                                    tasks = json.load(task_file)
+                                    while True:
+                                        os.system('cls')
+                                        counter = 0
+                                        for task in tasks:
+                                            if task['name_of_project'] == name_of_project:
+                                                counter+=1
+                                                rprint(str(counter) + '. name : ' + task['topic'] + ' ID :' + task['id'])
+                                        choice = input('Enter your choice (num) : ')
+                                        if not choice.isdigit() or int(choice) not in range(1, counter + 1):
+                                            os.system('cls')
+                                            rprint("Enter a valid input")
+                                            time.sleep(3)
+                                        else:
+                                            counter=0
+                                            for task in tasks:
+                                                if task['name_of_project'] == name_of_project:
+                                                    counter+=1
+                                                    if str(counter) == str(choice):
+                                                        temp = task['assignees']
+                                                        while True:
+                                                            counter=0
+                                                            for item in temp:
+                                                                counter+=1
+                                                                rprint(str(counter) + '. ' + item)
+                                                            member_name = str(input('Enter the name of member to remove assignment from him/her : '))
+                                                            if (member_name in temp):
+                                                                break
+                                                            else:
+                                                                os.system('cls')
+                                                                rprint("Enter a valid input")
+                                                                time.sleep(3)
+                                                        temp.remove(member_name)
+                                                        task['assignees'] = temp
+                                                        with open('data/assignments.json' , mode='w') as updated_file:
+                                                            json.dump(tasks , updated_file , indent= 4)
+                                                        os.system('cls')
+                                                        rprint("Member has been removed successfuly.")
+                                                        time.sleep(3)
+                                                        uh.Program.menu_after_logging_user(username)
+                                            
+                            else:
+                                rprint("File not found")
+                                time.sleep(3)
+                                uh.Program.menu_after_logging_user(username)  
+                except json.JSONDecodeError:
+                    os.system('cls')
+                    rprint("File doesn't have appropriate datas")
+                    time.sleep(3)
+                    uh.Program.menu_after_logging_user(username)
+        else:
+            rprint("File not found")
+            time.sleep(3)
+            uh.Program.menu_after_logging_user(username)                                            
     
 class PriorityType(Enum):
     CRITICAL = "CRITICAL"

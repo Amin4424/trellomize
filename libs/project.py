@@ -137,7 +137,7 @@ class Project:
                 print("JSONDecodeError: Could not decode the JSON file")
                 time.sleep(3)
                 uh.Program.menu_after_logging_user(username)
-    def remove_member_to_project(username):
+    def remove_member_from_project(username):
         if Path("data/users.json").exists():
                 try:
                     with open("data/projects.json", mode='r') as projects_file:

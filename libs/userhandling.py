@@ -76,11 +76,13 @@ class Program :
             if choice =='1':
                 project.Project.add_member_to_project(username)
             if choice =='2':
-                project.Project.remove_member_to_project(username)
+                project.Project.remove_member_from_project(username)
             if choice =='3':
                 ag.Task.add_assignment(username)
             if choice =='4':
                 ag.Task.remove_assignment(username)
             if choice =='5':
                 ag.Task.assign_to_member(username)
+            if choice =='6':
+                ag.Task.remove_assignment_from_member(username)
                 
