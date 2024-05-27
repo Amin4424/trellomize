@@ -32,6 +32,8 @@ class Program :
             elif choice == '3':
                 Program.working_on_project(username)
                 break
+            elif choice == '4':
+                break
             else:
                 print("Invalid input.")
     def manager_logging_in(username):
@@ -103,6 +105,8 @@ class Program :
                     
             elif choice == '3':
                 try:
+                    newdata = []
+                    found = False
                     with open("data/users.json",mode='r') as feedsjson:
                         users = json.load(feedsjson)
                         print('Wich user to you want to DELETE?')
@@ -115,12 +119,18 @@ class Program :
                         if inpt=='y' or inpt=='Y':
                             for user in users:
                                 if user['user_id'] == id_to_deactive:
-                                    # TODO deleting user
-                                    break
-                            else:
-                                print('User not found!')
+                                    found = True
+                                    pass
+                                else:
+                                    newdata.append(user)
                         elif inpt=='n' or inpt=='N':
                             pass
+                    if found:
+                        with open("data/users.json", "w") as f:
+                            json.dump(newdata, f, indent=4)
+                    else:
+                        print('User not found!')
+                        
                 except json.JSONDecodeError:
                     print("JSONDecode#Error: Could not decode the JSON file")
 

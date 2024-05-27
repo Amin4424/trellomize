@@ -3,6 +3,9 @@ import json
 import os
 from pathlib import Path
 from libs import view
+from libs import user
+from hashlib import sha256
+
 #Checks if the manager file is empy
 def is_json_empty(file_path):
     return os.path.isfile(file_path) and os.path.getsize(file_path) == 0
@@ -20,6 +23,7 @@ parser.add_argument('--password', required=True, help='The password for the admi
 args = parser.parse_args()
 
 if args.username and args.password:
+    manager_details = {"username": args.username, "password": sha256(args.password.encode('utf-8')).hexdigest()}
     manager_details = {"username": args.username, "password": args.password}
     file_path=Path('data/manager.json')
     if is_json_empty('data/manager.json') or not (file_path.exists()):
