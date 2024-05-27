@@ -88,3 +88,6 @@ def print_task_table(task):
     console.print(table)
 
     # rprint("6.Work on assignment")
+
+def duplicated_user():
+    rprint("This user has already exist!")

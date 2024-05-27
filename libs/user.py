@@ -31,8 +31,20 @@ class User:
     def sign_up():
         view.get_name()
         name = input.get_string()
-        view.get_username()
-        username = input.get_username()
+        with open("data/users.json", mode='r') as feedsjson:
+                try:
+                    users = json.load(feedsjson)
+                    while True:
+                        view.get_username()
+                        username = input.get_username()
+                        for user in users:
+                            if username == user["username"]:
+                                break
+                        else:
+                            break
+                        view.duplicated_user()
+                except json.JSONDecodeError:
+                    print("JSONDecode#Error: Could not decode the JSON file")
         view.get_password()
         password = input.get_string()
         view.get_email()
