@@ -2,6 +2,7 @@ import json
 import libs.view as view
 import libs.get_input as input
 import libs.project as project
+import libs.assignment as ag
 from loguru import logger
 from pathlib import Path
 from rich import print as rprint
@@ -179,4 +180,16 @@ class Program :
             if choice =='1':
                 project.Project.add_member_to_project(username)
             if choice =='2':
-                project.Project.remove_member_to_project(username)
+                project.Project.remove_member_from_project(username)
+            if choice =='3':
+                ag.Task.add_assignment(username)
+            if choice =='4':
+                ag.Task.remove_assignment(username)
+            if choice =='5':
+                ag.Task.assign_to_member(username)
+            if choice =='6':
+                ag.Task.remove_assignment_from_member(username)
+            if choice =='7':
+                ag.Task.work_on_assignments(username)
+            if choice =='8':
+                ag.Task.see_all_projects(username)

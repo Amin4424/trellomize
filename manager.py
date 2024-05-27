@@ -24,6 +24,7 @@ args = parser.parse_args()
 
 if args.username and args.password:
     manager_details = {"username": args.username, "password": sha256(args.password.encode('utf-8')).hexdigest()}
+    manager_details = {"username": args.username, "password": args.password}
     file_path=Path('data/manager.json')
     if is_json_empty('data/manager.json') or not (file_path.exists()):
         with open('data/manager.json', 'w') as f:
