@@ -85,4 +85,7 @@ class Program :
                 ag.Task.assign_to_member(username)
             if choice =='6':
                 ag.Task.remove_assignment_from_member(username)
-                
+            if choice =='7':
+                ag.Task.work_on_assignments(username)
+            if choice =='8':
+                ag.Task.see_all_projects(username)

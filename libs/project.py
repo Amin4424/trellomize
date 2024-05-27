@@ -16,12 +16,8 @@ class Project:
         self.title = title
         self.ID=ID
         self.list_of_members=list_of_members
-        # self.assignment_id = assignment_id
-        # self.description = description
-        # self.start_point = start_point
-        # self.deadline = deadline
     def create_project(leadername,name,title,ID):
-        list_of_members=[]
+        list_of_members=[leadername]
         project = Project(leadername,name,title,ID,list_of_members)
         if Path("data/projects.json").exists():
             with open("data/projects.json", mode='r') as projects:
@@ -39,37 +35,44 @@ class Project:
         }
             datas.append(data)
             json.dump(datas, projects, indent=4)
+        os.system('cls')
+        rprint("Project has been successfully created")
+        time.sleep(3)
+        uh.Program.menu_after_logging_user(leadername)
     def delete_project(username):
+        os.system('cls')
         if Path("data/projects.json").exists():
             with open("data/projects.json", mode='r') as existing_projects:
-                datas = json.load(existing_projects)
-                for i in range(len(datas)):
-                    rprint(str(i+1) +f". {datas[i]['name']}")
-                name_of_project=input.get_string()
-                if len(datas) != 0:
-                    for item in datas:
-                        if item['name'] == name_of_project and item['leader'] == username:
-                            rprint(f"Are you sure you want to delete {name_of_project} project?")
-                            rprint("Enter [Y/n]")
-                            choice = input.get_string()
-                            if choice.lower() in ['y', 'yes']:
-                                datas.remove(item)
-                                rprint("The project successfuly deleted")
+                try: 
+                    datas = json.load(existing_projects)
+                    for i in range(len(datas)):
+                        rprint(str(i+1) +f". {datas[i]['name']}")
+                    name_of_project=input.get_string()
+                    if any(name_of_project == data['name'] for data in datas):
+                        for item in datas:
+                            if item['name'] == name_of_project and item['leader'] == username:
+                                rprint(f"Are you sure you want to delete {name_of_project} project?")
+                                rprint("Enter [Y/n]")
+                                choice = input.get_string()
+                                if choice.lower() in ['y', 'yes']:
+                                    datas.remove(item)
+                                    rprint("The project successfuly deleted")
+                                    time.sleep(3)
+                                    with open("data/projects.json", mode='w') as updated_projects:
+                                        json.dump(datas, updated_projects, indent=4)
+                                    uh.Program.menu_after_logging_user(username)
+                                else:
+                                    uh.Program.menu_after_logging_user(username)
+                            elif item['name'] == name_of_project and item['leader'] != username:
+                                rprint("You cannot remove the project because you are not the leader.")
                                 time.sleep(3)
-                                with open("data/projects.json", mode='w') as updated_projects:
-                                    json.dump(datas, updated_projects, indent=4)
                                 uh.Program.menu_after_logging_user(username)
-                            else:
-                                uh.Program.menu_after_logging_user(username)
-                        elif item['name'] == name_of_project and item['leader'] != username:
-                            rprint("You cannot remove the project because you are not the leader.")
-                            time.sleep(3)
-                            uh.Program.menu_after_logging_user(username)
-                        elif item['name'] != name_of_project:
-                            uh.Program.menu_after_logging_user(username)
-                            time.sleep(3)
-                            rprint("The name you provided does not exist in projects.")
-                else:
+                    else:
+                        os.system('cls')
+                        rprint("The name you provided does not exist in projects.")
+                        time.sleep(3)
+                        uh.Program.menu_after_logging_user(username)
+                except json.JSONDecodeError:
                     rprint("Project file is empty.")
                     time.sleep(3)
                     uh.Program.menu_after_logging_user(username)

@@ -102,7 +102,7 @@ class Task:
                 'id' : id,
                 'assignees' : [],
                 'priority' : priority,
-                'status' : "BACKLOG",
+                'status' : StatusType.BACKLOG.name,
                 'history' : history,
                 'comments' : {}
             }
@@ -331,15 +331,220 @@ class Task:
             rprint("File not found")
             time.sleep(3)
             uh.Program.menu_after_logging_user(username)                                            
-    
+    def work_on_assignments(username):
+        os.system('cls')
+        if Path("data/assignments.json").exists():
+            with open("data/assignments.json" , mode='r') as assignments:
+                try:
+                    tasks = json.load(assignments)
+                    counter=0
+                    while True:
+                        for task in tasks:
+                            members = task['assignees']
+                            if username in members:
+                                counter+=1
+                                rprint("name : " + str(counter) +'. ' + task['topic'] +' ID ' + task['id'] )
+                        if counter == 0:
+                            os.system('cls')
+                            print("You don't have assignments")
+                            time.sleep(3)
+                            uh.Program.menu_after_logging_user(username)
+                        choice = input("Enter your choice to print the datas of the project: ")
+                        if not choice.isdigit() or int(choice) not in range(1, counter + 1):
+                            os.system('cls')
+                            rprint("Enter a valid input")
+                            time.sleep(3)
+                        else:
+                            break
+                    counter =0
+                    for task in tasks:
+                            members = task['assignees']
+                            if username in members:
+                                counter+=1
+                                if str(counter) == choice:
+                                    assignment = task
+                                    view.print_task_table(task)
+                    while True:
+                        rprint("1.Change Priority")
+                        rprint("2.Change Status")
+                        rprint("3.Add comment")
+                        rprint("4.Change description")
+                        rprint("5.Exit this section")
+                        choice = input('Enter your choice : ')
+                        if choice == '1':
+                            assignment = Task.change_priority(assignment)
+                            view.print_task_table(assignment)
+                        if choice == '2':
+                            assignment = Task.change_status(assignment)
+                            view.print_task_table(assignment)
+                        if choice == '3':
+                            assignment = Task.add_comment(username  , assignment)
+                            view.print_task_table(assignment)
+                        if choice == '4':
+                            assignment = Task.change_description(assignment)
+                            view.print_task_table(assignment)
+                        if choice == '5':
+                            break   
+                        else:
+                            print("Enter a valid input")
+                    with open("data/assignments.json" , mode='w') as updated_file:
+                        json.dump(tasks,updated_file,indent=4)
+                    uh.Program.menu_after_logging_user(username)
+                except json.JSONDecodeError:
+                    print("File doesn't not have suitable data")
+    def change_priority(assignment):
+        while True:
+                os.system('cls')
+                print("Choose the priority for the task")
+                rprint("1.CRITICAL")
+                rprint("2.HIGH")
+                rprint("3.MEDIUM")
+                rprint("4.LOW")
+                priority = input()
+                if priority == '1' or priority.lower() == "critical":
+                    priority == PriorityType.CRITICAL
+                    break
+                if priority == '2' or priority.lower() == "high":
+                    priority == PriorityType.HIGH
+                    break
+                if priority == '3' or priority.lower() == "medium":
+                    priority == PriorityType.MEDIUM
+                    break
+                if priority == '4' or priority.lower() == "low":
+                    priority == PriorityType.LOW
+                    break
+                else:
+                    os.system('cls')
+                    rprint("Please enter a valid priority")
+                    time.sleep(3)
+        assignment['priority'] = priority
+        os.system('cls')
+        rprint("Priority has been changed")
+        time.sleep(3)
+        return assignment
+    def change_status(assignment):
+        while True:
+                os.system('cls')
+                print("Choose the status for the task")
+                rprint("1.ARCHIEVED")
+                rprint("2.DONE")
+                rprint("3.DOING")
+                rprint("4.TODO")
+                rprint("5.BACKLOG")
+                status = input()
+                if status == '1' or status.lower() == "archieved":
+                    status == StatusType.ARCHIEVED
+                    break
+                if status == '2' or status.lower() == "done":
+                    status == StatusType.DONE
+                    break
+                if  status == '3' or status.lower() == "doing":
+                    status == StatusType.DOING
+                    break
+                if status == '4' or status.lower() == "todo":
+                    status == StatusType.TODO
+                    break
+                if status == '5' or status.lower() == "BACKLOG":
+                    status == StatusType.BACKLOG
+                else:
+                    os.system('cls')
+                    rprint("Please enter a valid priority")
+                    time.sleep(3)
+        assignment['status'] = status
+        os.system('cls')
+        rprint("Status has been changed")
+        time.sleep(3)
+        return assignment
+    def add_comment(username , assignment):
+        os.system('cls')
+        print("Type your comment to add to assignment :")
+        message = str(input())
+        data = {str(username): message}
+        assignment['comments'].update(data)
+        return assignment
+    def change_description(assignment):
+        os.system('cls')
+        print("Enter your description to change description of the project")
+        new_description = input()
+        assignment['description'] = new_description
+        return assignment
+    def see_all_projects(username):
+        os.system('cls')
+        if Path("data/projects.json").exists() and Path("data/assignments.json").exists():
+            with open("data/projects.json" , mode='r') as project_file:
+                try:
+                    projects = json.load(project_file)
+                    while True:
+                        counter=0
+                        for project in projects :
+                            if username in project['list_of_members']:
+                                counter+=1
+                                rprint(str(counter) + '. ' + project['name'])
+                        if counter ==0:
+                            os.system('cls')
+                            print("You are not member of any projects")
+                            time.sleep(3)
+                            uh.Program.menu_after_logging_user(username)
+                        choice = input('Enter your choice for project (num) : ')
+                        if not choice.isdigit() or not int(choice) in range(1, counter + 1):
+                            os.system('cls')
+                            rprint("Enter a valid input")
+                            time.sleep(3)
+                        else :
+                            counter =0
+                            for project in projects :
+                                if username in project['list_of_members']:
+                                    counter+=1
+                                    if str(counter) == choice:
+                                        project_holder = project
+                            break
+                    with open("data/assignments.json" , mode='r') as task_file:
+                        try:
+                            counter =0
+                            tasks = json.load (task_file)
+                            for task in tasks:
+                                if task['name_of_project'] == project_holder['name']:
+                                    counter+=1
+                                    rprint(str(counter) + '. ' + task['topic'] + ' ID : ' + task['id'])
+                            if counter == 0:
+                                os.system('cls')
+                                print("this project has no task to do")
+                                time.sleep(3)
+                                uh.Program.menu_after_logging_user(username)
+                            choice = input('Enter your choice for assignments (num) : ')
+                            if (choice.isdigit()) or int(choice) in range(1, counter + 1):
+                                counter =0        
+                                for task in tasks:
+                                    if task['name_of_project'] == project_holder['name']:
+                                        counter+=1
+                                        if str(counter) == choice:
+                                            os.system('cls')
+                                            view.print_task_table(task)
+                            while True:
+                                choice = input('Enter \'r\' to return : ')
+                                if choice == 'r':
+                                    uh.Program.menu_after_logging_user(username)
+                                else:
+                                    print("Enter a valid input")
+                        except json.JSONDecodeError:
+                            os.system('cls')
+                            print("The file is empty")
+                            time.sleep(3)
+                            uh.Program.menu_after_logging_user(username)
+                            
+                except json.JSONDecodeError:
+                    os.system('cls')
+                    print("The file is empty")
+                    time.sleep(3)
+                    uh.Program.menu_after_logging_user(username)
 class PriorityType(Enum):
-    CRITICAL = "CRITICAL"
-    HIGH = "HIGH"
-    MEDIUM = "MEDIUM"
-    LOW = "LOW"
+    CRITICAL = 4
+    HIGH = 3
+    MEDIUM = 2
+    LOW = 1
 class StatusType(Enum):
-    ARCHIEVED = "ARCHIEVED"
-    DONE = "DONE"
-    DOING = "DOING"
-    TODO = "TODO" 
-    BACKLOG = "BACKLOG"
+    ARCHIEVED = 5
+    DONE = 4
+    DOING = 3
+    TODO = 2 
+    BACKLOG = 1
