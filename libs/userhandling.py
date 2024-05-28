@@ -9,21 +9,19 @@ from rich import print as rprint
 import uuid
 import os
 class Program :
-    @staticmethod
     def create_project():
         pass #TODO
     def remove_project():
         pass #TODO
-    @staticmethod
     def user_logging_in(username):
         view.logging_in_message(username)
         logger.add('data/logging.log')
         logger.info(username+' just logged in into his/her account')
         Program.menu_after_logging_user(username)
     def menu_after_logging_user(username):
-        view.menu_after_log()
-        choice = input.get_string()
         while True:
+            view.menu_after_log()
+            choice = input.get_string()
             if choice == '1':
                 Program.creating_project(username)
             elif choice == '2':
@@ -47,19 +45,19 @@ class Program :
                 try:
                     with open("data/users.json",mode='r') as feedsjson:
                         users = json.load(feedsjson)
-                        print('Wich user to you want to deactive?')
+                        print('Which user to you want to deactive?')
                         for i in range(len(users)):
                             rprint(str(i+1) + ('.') + users[i]['username'] + ' ID: ' + users[i]['user_id'])
-                        print('Enter the user ID for deactivating:')
+                        print('Enter the username for deactivating:')
                         id_to_deactive = input.get_string()
                         view.rusure()
                         inpt = input.get_string()
                         if inpt=='y' or inpt=='Y':
                             for user in users:
-                                if user['user_id'] == id_to_deactive:
+                                if user['username'] == id_to_deactive:
                                     if user['is_active'] == True:
                                         user['is_active'] = False
-                                        print("Deactivating was seccus full!")
+                                        print("Deactivating was successful!")
                                         with open("data/users.json",mode='w') as feedsjson:
                                             json.dump(users, feedsjson, indent=4)
                                         break
@@ -80,13 +78,13 @@ class Program :
                         print('Wich user to you want to active?')
                         for i in range(len(users)):
                             rprint(str(i+1) + ('.') + users[i]['username'] + ' ID: ' + users[i]['user_id'])
-                        print('Enter the user ID for activating:')
+                        print('Enter the user username for activating:')
                         id_to_deactive = input.get_string()
                         view.rusure()
                         inpt = input.get_string()
                         if inpt=='y' or inpt=='Y':
                             for user in users:
-                                if user['user_id'] == id_to_deactive:
+                                if user['username'] == id_to_deactive:
                                     if user['is_active'] == False:
                                         user['is_active'] = True
                                         print("activating was seccus full!")
@@ -174,9 +172,9 @@ class Program :
         project.Project.delete_project(username)
 
     def working_on_project(username):
-        view.menu_work_on_project()
-        choice = input.get_string()
         while True:
+            view.menu_work_on_project()
+            choice = input.get_string()
             if choice =='1':
                 project.Project.add_member_to_project(username)
             if choice =='2':
@@ -193,3 +191,5 @@ class Program :
                 ag.Task.work_on_assignments(username)
             if choice =='8':
                 ag.Task.see_all_projects(username)
+            if choice =='9':
+                Program.menu_after_logging_user(username)

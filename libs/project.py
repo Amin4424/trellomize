@@ -2,6 +2,7 @@ import json
 import libs.view as view
 import libs.get_input as input
 import libs.userhandling as uh
+import libs.log as log
 from pathlib import Path
 from rich import print as rprint
 import re
@@ -35,6 +36,7 @@ class Project:
         }
             datas.append(data)
             json.dump(datas, projects, indent=4)
+        log.announcement.info(leadername + " created a project.")
         os.system('cls')
         rprint("Project has been successfully created")
         time.sleep(3)
@@ -56,10 +58,20 @@ class Project:
                                 choice = input.get_string()
                                 if choice.lower() in ['y', 'yes']:
                                     datas.remove(item)
-                                    rprint("The project successfuly deleted")
-                                    time.sleep(3)
+                                    with open("data/assignments.json" , mode='w+') as assignments:
+                                        try:
+                                            tasks = json.load(assignments)
+                                            for task in tasks:
+                                                if task['name_of_project'] == name_of_project:
+                                                    tasks.remove(task)
+                                            json.dump(tasks , assignments , indent= 4)
+                                        except:
+                                            tasks = []
                                     with open("data/projects.json", mode='w') as updated_projects:
                                         json.dump(datas, updated_projects, indent=4)
+                                    log.announcement.info(username + " deleted the" + task + " project.")
+                                    rprint("The project successfuly deleted")
+                                    time.sleep(3)
                                     uh.Program.menu_after_logging_user(username)
                                 else:
                                     uh.Program.menu_after_logging_user(username)
@@ -136,6 +148,10 @@ class Project:
                             temp.append(str(member))
                 with open("data/projects.json", mode='w') as updated_projects_file:
                     json.dump(projects, updated_projects_file, indent=4)
+                os.system('cls')
+                rprint("User has successfuly added to project")
+                time.sleep(3)
+                uh.Program.menu_after_logging_user(username)
             except json.JSONDecodeError:
                 print("JSONDecodeError: Could not decode the JSON file")
                 time.sleep(3)
@@ -146,12 +162,23 @@ class Project:
                     with open("data/projects.json", mode='r') as projects_file:
                         projects = json.load(projects_file)
                         while True:
+                            os.system('cls')
+                            counter =0
                             is_empty = False
                             rprint("Select a project :")
                             for project in projects:
                                 if project['leader'] == username:
-                                    rprint(project)
-                            name_of_project=input.get_string()
+                                    counter+=1
+                                    rprint(str(counter) + '- ')
+                                    view.print_project_table(project)
+                            choice = input.get_string()
+                            if (choice.isdigit()) and int(choice) in range(1, counter + 1):
+                                counter = 0
+                                for project in projects:
+                                    if project['leader'] == username:
+                                        counter+=1
+                                        if str(counter) == choice:
+                                            name_of_project = project
                             for project in projects:
                                 if project['name'] == name_of_project:
                                     if len(project['list_of_members']) == 0:
@@ -171,10 +198,19 @@ class Project:
                                     temp = project['list_of_members']
                                     if name_to_remove in temp:
                                         temp.remove(name_to_remove)
-                                        project['list_of_members'] = temp  
+                                        project['list_of_members'] = temp 
+                                        with open("data/assignments.json" , mode='w+') as assignments:
+                                            tasks = json.load(assignments)
+                                            for task in tasks:
+                                                if task['name_of_project'] == project:
+                                                    temp = task['assignees']
+                                                    for item in temp:
+                                                        temp.remove(name_to_remove)
                                         with open("data/projects.json", mode='w') as updated_projects_file:
                                             json.dump(projects, updated_projects_file, indent=4)
+                                        json.dump(tasks , assignments , indent=4)
                                         is_deleted = True
+                                        log.announcement.info(username + " removed " + name_to_remove + " from" + name_of_project + " project.")
                                         os.system('cls')
                                         rprint("The member was successfully deleted from the project.")
                                         time.sleep(3)

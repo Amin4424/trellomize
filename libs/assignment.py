@@ -1,6 +1,7 @@
 import json
 import libs.view as view
 import libs.userhandling as uh
+import libs.log as log
 from pathlib import Path
 from rich import print as rprint
 import re
@@ -9,10 +10,9 @@ import time
 import os
 from enum import Enum
 from datetime import datetime , timedelta
-#Topic is not unique , Remove assignment from user , work on assignment
 class Task:
     def __init__(self , title , description , start_point , deadline , project,
-                 specific_id , assignees , priority , status , history , comment
+                 specific_id , assignees , priority , status , comment
                  ) :
         self.title = title
         self.description = description
@@ -23,7 +23,6 @@ class Task:
         self.assignees = assignees
         self.priority = priority
         self.status = status
-        self.history = history
         self.comment = comment
     def add_assignment(username):
         with open("data/projects.json" , mode='r') as project_json:
@@ -42,7 +41,7 @@ class Task:
                         print("You don't have any project . First make a project")
                         time.sleep(3)
                         uh.Program.menu_after_logging_user(username)        
-                name_of_project = input('Enter your choice : ')
+                name_of_project = input('Enter your choice (name of the project) : ')
                 if any (name_of_project == project['name'] for project in projects):
                     break
                 else :
@@ -81,10 +80,8 @@ class Task:
             deadline_str = deadline.strftime("%Y-%m-%d %H:%M")
             id = str(uuid.uuid4())
             message = username +" created a task."
-            history = []
-            history.append(message) 
             new_assignment = Task(topic ,description ,starting_point , deadline ,name_of_project ,
-                                      id , [] ,priority , StatusType.BACKLOG ,history , {} )
+                                      id , [] ,priority , StatusType.BACKLOG , {} )
             if Path("data/assignments.json").exists():
                 with open("data/assignments.json" , mode='r') as feedsjson:
                     try:
@@ -103,12 +100,13 @@ class Task:
                 'assignees' : [],
                 'priority' : priority,
                 'status' : StatusType.BACKLOG.name,
-                'history' : history,
                 'comments' : {}
             }
             datas.append(data)
+            log.announcement.info(username + " added a task to "  + " project.")
             with open("data/assignments.json" , mode='w') as task:
                 json.dump(datas , task , indent=4)
+            uh.Program.menu_after_logging_user(username)
     def remove_assignment(username):
         if Path("data/projects.json").exists():
             with open("data/projects.json", mode='r') as feedsjson:
@@ -151,6 +149,7 @@ class Task:
                         topic_name = input('Choose the task to be removed  ')
                         if any (topic_name == task['topic'] for task in tasks):
                             tasks.remove(task)
+                            log.announcement.info(username + " removed a task from " + task['name_of_project'] + " project.")
                             with open("data/assignments.json" , mode='w') as updated_file:
                                 json.dump(tasks , updated_file , indent=4)
                             os.system('cls')
@@ -240,6 +239,7 @@ class Task:
                                                 print("User already has that task")
                                                 time.sleep(3)
                                                 uh.Program.menu_after_logging_user(username)
+                                            log.announcement.info(username + " assigned a task to " + member_name)
                                             list_of_members.append(str(member_name))
                                             with open("data/assignments.json" , mode ='w') as updated_file:
                                                 json.dump(tasks , updated_file , indent=4)
@@ -311,6 +311,7 @@ class Task:
                                                                 time.sleep(3)
                                                         temp.remove(member_name)
                                                         task['assignees'] = temp
+                                                        log.announcement.info(username + " removed "+member_name + " from an assignment.")
                                                         with open('data/assignments.json' , mode='w') as updated_file:
                                                             json.dump(tasks , updated_file , indent= 4)
                                                         os.system('cls')
@@ -374,15 +375,19 @@ class Task:
                         if choice == '1':
                             assignment = Task.change_priority(assignment)
                             view.print_task_table(assignment)
+                            log.announcement.info(username + " changed the priority of the " + assignment['name_of_project'] + " project.")
                         if choice == '2':
                             assignment = Task.change_status(assignment)
                             view.print_task_table(assignment)
+                            log.announcement.info(username + " changed the status of the " + assignment['name_of_project'] + " project.")
                         if choice == '3':
                             assignment = Task.add_comment(username  , assignment)
                             view.print_task_table(assignment)
+                            log.announcement.info(username + " added a comment to " + assignment['name_of_project'] + " project.")
                         if choice == '4':
                             assignment = Task.change_description(assignment)
                             view.print_task_table(assignment)
+                            log.announcement.info(username + " changed the description of the " + assignment['name_of_project'] + " project.")
                         if choice == '5':
                             break   
                         else:
@@ -512,7 +517,7 @@ class Task:
                                 time.sleep(3)
                                 uh.Program.menu_after_logging_user(username)
                             choice = input('Enter your choice for assignments (num) : ')
-                            if (choice.isdigit()) or int(choice) in range(1, counter + 1):
+                            if (choice.isdigit()) and int(choice) in range(1, counter + 1):
                                 counter =0        
                                 for task in tasks:
                                     if task['name_of_project'] == project_holder['name']:

@@ -22,6 +22,15 @@ parser.add_argument('--password', required=True, help='The password for the admi
 
 args = parser.parse_args()
 
+parser1 = argparse.ArgumentParser(
+    prog = 'manager.py',
+    usage = 'python3 {prog} purge-data',
+    description= 'To clear all datas'
+)
+parser1.add_argument('command' , help='The command to execute')
+parser1.add_argument('purge-data' , required=True , help='To clear datas')
+args = parser1.parse_args()
+
 if args.username and args.password:
     manager_details = {"username": args.username, "password": sha256(args.password.encode('utf-8')).hexdigest()}
     manager_details = {"username": args.username, "password": args.password}

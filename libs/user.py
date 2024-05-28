@@ -3,15 +3,16 @@ import libs.view as view
 import libs.get_input as input
 import libs.userhandling as uh
 from pathlib import Path
+import time
 import re
 import uuid
-from hashlib import sha256
+import hashlib
+import os
+salt = "trellomize"
 
-salt = "trlumiz"
-
-def pass_hash(password):
-    password = password + salt
-    return sha256(password.encode('utf-8')).hexdigest()
+def hash_password_with_salt(password):
+    data_base_password = password + salt
+    return hashlib.sha256(data_base_password.encode()).hexdigest()
 
 def is_valid_email(email):
     pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
@@ -31,10 +32,11 @@ class User:
         self.is_active = is_active
         User.add_user_to_json(self)
 
-    @staticmethod
+    
     def sign_up():
         view.get_name()
         name = input.get_string()
+        get_username = False
         with open("data/users.json", mode='r') as feedsjson:
                 try:
                     users = json.load(feedsjson)
@@ -45,12 +47,16 @@ class User:
                             if username == user["username"]:
                                 break
                         else:
+                            get_username = True
                             break
                         view.duplicated_user()
                 except json.JSONDecodeError:
-                    print("JSONDecode#Error: Could not decode the JSON file")
+                    user = []
+        if not(get_username):
+            view.get_username()
+            username = input.get_username()
         view.get_password()
-        password = pass_hash(input.get_string())
+        password = hash_password_with_salt(input.get_string())
         view.get_email()
         while True:
             email=input.get_string()
@@ -59,37 +65,50 @@ class User:
             else:
                 break
         new_user = User(name, username, password, email)
-        view.secces_sign_up()
+        view.success_sign_up()
 
-    @staticmethod
+    
     def sign_in():
         view.sign_in_username()
         username=input.get_username()
         view.sign_in_password()
-        password = pass_hash(input.get_string())
+        flag_2 = False
+        flag_1 = False
+        password = input.get_string()
+        print(password)
         if Path ("data/manager.json").exists():
                 with open("data/manager.json",mode='r') as feedsjson:
-                    user = json.load(feedsjson)
-                    if len(user) != 0:
-                        if user['username']==username and user['password']==password:
+                    try:
+                        users = json.load(feedsjson)
+                        if users['username']==username and users['password']==password :
                             uh.Program.manager_logging_in(username)
-                        else:
-                            view.invalid_username_password()
-                
+                    except:
+                        users=[]
+                        flag_1 = True
         if Path("data/users.json").exists():
-            try:
+                password = hash_password_with_salt(password)
                 with open("data/users.json",mode='r') as feedsjson:
-                    users = json.load(feedsjson)
-                    for user in users:
-                        if user['username'] == username and user['password'] == password:
-                            uh.Program.user_logging_in(username)
-                        elif user['username'] == username and user['password'] != password+salt:
-                            view.invalid_username_password()
+                    try:
+                        users = json.load(feedsjson)
+                        for user in users:
+                            if user['username'] ==username:
+                                if not user['is_active']:
+                                    os.system('cls')
+                                    print("Your account is deactived by the manager")
+                                    time.sleep(3)
+                                elif user['username'] == username and user['password'] ==password:
+                                    uh.Program.user_logging_in(username)
+                                elif user['username'] == username and user['password'] != password:
+                                    view.invalid_username_password()
                         
-            except json.JSONDecodeError:
-                print("JSONDecode#Error: Could not decode the JSON file")
-                    
-    @staticmethod
+                    except json.JSONDecodeError:
+                        flag_2 = True
+        if flag_1 and flag_2:
+            print("There's no registered member with that username and password")
+            
+        else:
+            print("User File doesn't exist")    
+    
     def add_user_to_json(user):
         users = []
         if Path("data/users.json").exists():

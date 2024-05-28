@@ -39,7 +39,7 @@ def menu_after_log():
     rprint("1.[green]Create a project")
     rprint("2.[red]Delete a project")
     rprint("3.[blue]Work on a project")
-    rprint("4.Loging out")
+    rprint("4.Logging out")
 def menu_for_manager():
     os.system('cls')
     rprint("1.[yellow]Deactive a user")
@@ -62,6 +62,7 @@ def menu_work_on_project():
     rprint("6.Remove assignment from user")
     rprint("7.Work on assignment")
     rprint("8.See all projects")
+    rprint("9.Return")
 def print_task_table(task):
     console = Console()
 
@@ -90,13 +91,30 @@ def print_task_table(task):
 
     console.print(table)
 
-    # rprint("6.Work on assignment")
 
 def duplicated_user():
     rprint("[yellow]This user has already exist!")
     
-def secces_sign_up():
+def success_sign_up():
+    os.system('cls')
     rprint("[green]Your account has been created successfully!")
     rprint("[green]You can sign in with your username and password.")
     sleep(2)
     rprint("This user has already exist!")
+    
+    
+def print_project_table(project):
+    console = Console()
+
+    table = Table(show_header=True, header_style="bold magenta")
+    table.add_column("Project Name & ID", style="blue", width=15)
+    table.add_column("Owner", style="yellow", width=15)
+    table.add_column("Members", style="magenta", width=30)
+    table.add_column("Title", style="cyan", width=15)
+    
+    table.add_row(
+        project['name'] + " " + str(project['ID']),  
+        project['leader'],
+        ', '.join(project['list_of_members']),
+        project['title'],)
+    console.print(table)
