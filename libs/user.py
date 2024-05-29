@@ -34,6 +34,7 @@ class User:
 
     
     def sign_up():
+        os.system('cls')
         view.get_name()
         name = input.get_string()
         get_username = False
@@ -104,7 +105,9 @@ class User:
                     except json.JSONDecodeError:
                         flag_2 = True
         if flag_1 and flag_2:
+            os.system('cls')
             print("There's no registered member with that username and password")
+            time.sleep(3)
             
         else:
             print("User File doesn't exist")    

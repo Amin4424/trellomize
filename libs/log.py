@@ -10,8 +10,5 @@ logging.basicConfig(
 )
 announcement = logging.getLogger('My_log')
 
-# logger = logging.getLogger('my_logger')
 
-# logger.info("User performed an action.")
-# logger.warning("User attempted an unauthorized action.")
 

@@ -3,16 +3,13 @@ import libs.view as view
 import libs.get_input as input
 import libs.project as project
 import libs.assignment as ag
+import libs.user as us
 from loguru import logger
 from pathlib import Path
 from rich import print as rprint
 import uuid
 import os
 class Program :
-    def create_project():
-        pass #TODO
-    def remove_project():
-        pass #TODO
     def user_logging_in(username):
         view.logging_in_message(username)
         logger.add('data/logging.log')
@@ -31,7 +28,8 @@ class Program :
                 Program.working_on_project(username)
                 break
             elif choice == '4':
-                break
+                os.system('cls')
+                us.User.sign_in()
             else:
                 print("Invalid input.")
     def manager_logging_in(username):

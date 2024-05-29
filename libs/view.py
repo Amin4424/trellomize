@@ -4,65 +4,65 @@ from rich import print  as rprint
 from rich.table import Table
 from rich.console import Console
 def wrong_input():
-    print("Please enter a valid input!")
+    print(" [steel_blue3][Error]: Please enter a valid input!")
 
 def get_name():
     os.system('cls')
-    print("Enter your fullname:")
+    rprint("[cornflower_blue]Enter your fullname:")
 
 def get_username():
-    print("Enter your username:")
+    rprint("[aquamarine1]Enter your username:")
 
 def get_password():
-    print("Enter your password:")
+    rprint("[dark_violet]Enter your password:")
 
 def get_email():
-    print("Enter your email:")
+    rprint("[dark_magenta]Enter your email:")
 
 def alreay_exist():
-    print("This username has already exist!\nPlesae enter another one:")
+    print("[orange4]This username has already exist!\nPlesae enter another one:")
 def invalid_email():
     print("Your email is not valid. Please try again:")
 def invalid_username_password():
     print("Your username or password is not valid.Please try again.")
     sleep(1)
 def sign_in_username():
-    print("Please enter your username:")
+    rprint("[dodger_blue1]Please enter your username:")
 def sign_in_password():
-    print("Please enter your password:")
+    rprint("[spring_green3]Please enter your password:")
 def remove_member_message():
-    print("Please choose a user to remove from application :")
+    rprint("Please choose a user to remove from application :")
 def logging_in_message(username):
-    print("Welcome dear "+username)
+    rprint("[dark_cyan]Welcome dear "+username)
 def menu_after_log():
     os.system('cls')
     rprint("1.[green]Create a project")
     rprint("2.[red]Delete a project")
     rprint("3.[blue]Work on a project")
-    rprint("4.Logging out")
+    rprint("4.[blue_violet]Logging out")
 def menu_for_manager():
     os.system('cls')
     rprint("1.[yellow]Deactive a user")
     rprint("2.[green]Active a user")
     rprint("3.[red]Delete a user")
-    rprint("4.Loging out")
+    rprint("4[blue_violet].Loging out")
     
 def rusure():
-    print('Are you sure?(y/n)')
+    print('[medium_purple]Are you sure?(y/n)')
 
 def get_name_of_project():
-    rprint('Enter the name of the project that you want to remove')
+    rprint('[wheat1]Enter the name of the project that you want to remove')
 def menu_work_on_project():
     os.system('cls')
-    rprint("[green]1.Add a user to project")
-    rprint("2.[red]Remove a user from a project")
-    rprint("[green]3.Add an assignment for project")
+    rprint("[light_green]1.Add a user to project")
+    rprint("2.[light_sky_blue3]Remove a user from a project")
+    rprint("[dark_sea_green]3.Add an assignment for project")
     rprint("4.[red]Remove an assignment from project")
-    rprint("5.Assign an assignment to a user")
-    rprint("6.Remove assignment from user")
-    rprint("7.Work on assignment")
-    rprint("8.See all projects")
-    rprint("9.Return")
+    rprint("5.[magenta2]Assign an assignment to a user")
+    rprint("6.[light_goldenrod3]Remove assignment from user")
+    rprint("7.[sky_blue1]Work on assignment")
+    rprint("8.[dark_olive_green3]See all assignments")
+    rprint("9[khaki3].Return")
 def print_task_table(task):
     console = Console()
 
@@ -85,7 +85,7 @@ def print_task_table(task):
         # starting_point,  # Uncomment if needed
         ', '.join(task['assignees']),
         task['status'],
-        comments_str,  # Moved comments before priority
+        comments_str, 
         task['priority']
     )
 
@@ -100,7 +100,7 @@ def success_sign_up():
     rprint("[green]Your account has been created successfully!")
     rprint("[green]You can sign in with your username and password.")
     sleep(2)
-    rprint("This user has already exist!")
+    rprint("[medium_turquoise]This user has already exist!")
     
     
 def print_project_table(project):

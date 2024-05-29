@@ -59,16 +59,20 @@ class Task:
                 rprint("4.LOW")
                 priority = input()
                 if priority == '1' or priority.lower() == "critical":
-                    priority == PriorityType.CRITICAL
+                    priority =1
+                    priority = PriorityType(int(priority)).name
                     break
                 if priority == '2' or priority.lower() == "high":
-                    priority == PriorityType.HIGH
+                    priority =2
+                    priority = PriorityType(int(priority)).name
                     break
                 if priority == '3' or priority.lower() == "medium":
-                    priority == PriorityType.MEDIUM
+                    priority =3
+                    priority = PriorityType(int(priority)).name
                     break
                 if priority == '4' or priority.lower() == "low":
-                    priority == PriorityType.LOW
+                    priority=4
+                    priority = PriorityType(int(priority)).name
                     break
                 else:
                     os.system('cls')
@@ -407,16 +411,20 @@ class Task:
                 rprint("4.LOW")
                 priority = input()
                 if priority == '1' or priority.lower() == "critical":
-                    priority == PriorityType.CRITICAL
+                    priority = 4
+                    priority = PriorityType(int(priority)).name
                     break
                 if priority == '2' or priority.lower() == "high":
-                    priority == PriorityType.HIGH
+                    priority = 3
+                    priority = PriorityType(int(priority)).name
                     break
                 if priority == '3' or priority.lower() == "medium":
-                    priority == PriorityType.MEDIUM
+                    priority = 2
+                    priority = PriorityType(int(priority)).name
                     break
                 if priority == '4' or priority.lower() == "low":
-                    priority == PriorityType.LOW
+                    priority = 1
+                    priority = PriorityType(int(priority)).name
                     break
                 else:
                     os.system('cls')
@@ -438,19 +446,24 @@ class Task:
                 rprint("5.BACKLOG")
                 status = input()
                 if status == '1' or status.lower() == "archieved":
-                    status == StatusType.ARCHIEVED
+                    status = 5
+                    status = StatusType(int(status)).name
                     break
                 if status == '2' or status.lower() == "done":
-                    status == StatusType.DONE
+                    status  = 4
+                    status = StatusType(int(status)).name
                     break
                 if  status == '3' or status.lower() == "doing":
-                    status == StatusType.DOING
+                    status = 3
+                    status = StatusType(int(status)).name
                     break
                 if status == '4' or status.lower() == "todo":
-                    status == StatusType.TODO
+                    status = 2
+                    status = StatusType(int(status)).name
                     break
                 if status == '5' or status.lower() == "BACKLOG":
-                    status == StatusType.BACKLOG
+                    status = 1
+                    status = StatusType(int(status)).name
                 else:
                     os.system('cls')
                     rprint("Please enter a valid priority")
@@ -513,7 +526,7 @@ class Task:
                                     rprint(str(counter) + '. ' + task['topic'] + ' ID : ' + task['id'])
                             if counter == 0:
                                 os.system('cls')
-                                print("this project has no task to do")
+                                print("this project has no task to see")
                                 time.sleep(3)
                                 uh.Program.menu_after_logging_user(username)
                             choice = input('Enter your choice for assignments (num) : ')
