@@ -107,9 +107,9 @@ class User:
                                     os.system('cls')
                                     print("Your account is deactived by the manager")
                                     time.sleep(3)
-                                elif user['username'] == username and user['password'] ==password:
+                                elif user['username'] == username and user['password'] == password:
                                     uh.Program.user_logging_in(username)
-                                elif user['username'] == username and user['password'] != password:
+                                else:
                                     view.invalid_username_password()
                         
                     except json.JSONDecodeError:

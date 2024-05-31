@@ -4,7 +4,7 @@ from rich import print  as rprint
 from rich.table import Table
 from rich.console import Console
 def wrong_input():
-    print(" [steel_blue3][Error]: Please enter a valid input!")
+    rprint("[steel_blue3][Error]: Please enter a valid input!")
 
 def get_name():
     os.system('cls')
@@ -141,3 +141,7 @@ def users_table(users, deleting=False):
     for i in range(len(users)):
         table.add_row(str(i+1), users[i]['username'], users[i]['user_id'])
     console.print(table)
+    
+def for_exit():
+    os.system("cls")
+    rprint("[red]Enter '3' to exit!")

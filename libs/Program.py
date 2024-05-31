@@ -47,6 +47,7 @@ class Program :
             except:
                 if option == '3':
                     exit(0)
+                view.for_exit()
     def user_logging_in(username):
         view.logging_in_message(username)
         logger.add('data/logging.log')
