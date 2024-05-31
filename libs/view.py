@@ -22,9 +22,10 @@ def get_email():
 def alreay_exist():
     print("[orange4]This username has already exist!\nPlesae enter another one:")
 def invalid_email():
-    print("Your email is not valid. Please try again:")
+    rprint("[yellow]Your email is not valid.")
+    print("Please try again:")
 def invalid_username_password():
-    print("Your username or password is not valid.Please try again.")
+    rprint("[red]Your username or password is not valid.Please try again.")
     sleep(1)
 def sign_in_username():
     rprint("[dodger_blue1]Please enter your username:")
@@ -121,3 +122,7 @@ def print_project_table(project):
         ', '.join(project['list_of_members']),
         project['title'],)
     console.print(table)
+    
+def duplicated_email():
+    rprint("[yellow]This email has already have an account!")
+    print("Please try again:")

@@ -41,6 +41,7 @@ class User:
         view.get_name()
         name = input.get_string()
         get_username = False
+        users = []
         if Path("data/users.json").exists():
             with open("data/users.json", mode='r') as feedsjson:
                     try:
@@ -70,7 +71,12 @@ class User:
             if is_valid_email(email)==False:
                 view.invalid_email()
             else:
-                break
+                for user in users:
+                    if email == user["email"]:
+                        view.duplicated_email()
+                        break
+                else:
+                    break
         new_user = User(name, username, password, email)
         view.success_sign_up()
 
