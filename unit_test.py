@@ -22,11 +22,11 @@ class ValidationEmail(unittest.TestCase):
         
 class ValidationHash(unittest.TestCase):
     def test_1(self):
-        self.assertEqual(hash_password_with_salt("amir"),"4a5fae827ed25de0df79967763b7df467f1a11ea9d3d1945b93c0018c3dfb30b")
+        self.assertEqual(hash_password_with_salt("amir"),"e39c35e6bd9bd5557015119ed6018ec879cf43da48e3e24e274575491011379f")
     def test_2(self):
-        self.assertEqual(hash_password_with_salt("314"),"21c59ef795708b592004ddbc343784a561e3d5dc56afadddec4308e6160dfe6c")
+        self.assertEqual(hash_password_with_salt("314"),"0c42661778dd4fd5402690aec2d5aac08ffbeea38821e6f34310d93441db12c1")
     def test_3(self):
-        self.assertEqual(hash_password_with_salt("amin1234"),"340d28ad93b3a3ba53454468e2b1c891255a449e37e5e3a9d9c0205821cd1a85")
+        self.assertEqual(hash_password_with_salt("amin1234"),"f74f1d5bc74ae513039f5dfb096025d78b8f342c2f789d3f967cc9f79cab8610")
     def test_4(self):
         self.assertNotEqual(hash_password_with_salt("amir"),"1574ad62d48a37f847699d7d2157105a5a5fd6ed323a3497fa41c7731229bf23")
     def test_5(self):
