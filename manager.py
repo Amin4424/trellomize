@@ -39,11 +39,11 @@ if args.command == 'create-admin':
         except json.JSONDecodeError:
             manager = {}
             manager["username"] = args.username
-            manager["password"] = args.password
+            manager["password"] = user.hash_password_with_salt(args.password)
     else:
         manager = {}
         manager["username"] = args.username
-        manager["password"] = args.password
+        manager["password"] = user.hash_password_with_salt(args.password)
 
 
 

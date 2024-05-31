@@ -159,20 +159,6 @@ class Task:
                                     get_name_of_project = True
                                     id_of_project = project['ID']
                                     break
-                        if counter == 0:
-                            os.system('cls')
-                            rprint("You don't have any projects")
-                            time.sleep(2)
-                            uh.Program.menu_after_logging_user(username)
-                        counter =0
-                        choice = input('Enter your choice : ')
-                        for project in projects:
-                            if project['leader'] ==username:
-                                counter+=1
-                                if choice == str(counter):
-                                    get_name_of_project = True
-                                    id_of_project = project['ID']
-                                    break
                         else:
                             os.system('cls')
                             rprint("Please enter a valid name .")
