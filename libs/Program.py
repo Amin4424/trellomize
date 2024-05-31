@@ -25,22 +25,25 @@ class Program :
         rprint("")
 
         while True:
-            rprint("1.[green]Sign in")
-            rprint("2.[bright_white]Sign up")
-            rprint("3.[red]Exit")
-            rprint("[royal_blue1]Your choice: ")
-            option = input.get_string()
-            if option == '1':
-                us.User.sign_in()
-                os.system("cls")
-            if option == '2':
-                us.User.sign_up()
-                os.system("cls")
-            if option == '3':
-                exit()
-            if option not in ['1','2','3']:
-                os.system("cls")
-                rprint("Invalid input! Please try again.")
+            try:
+                rprint("1.[green]Sign in")
+                rprint("2.[bright_white]Sign up")
+                rprint("3.[red]Exit")
+                rprint("[royal_blue1]Your choice: ")
+                option = input.get_string()
+                if option == '1':
+                    us.User.sign_in()
+                    os.system("cls")
+                if option == '2':
+                    us.User.sign_up()
+                    os.system("cls")
+                if option == '3':
+                    exit()
+                if option not in ['1','2','3']:
+                    os.system("cls")
+                    rprint("Invalid input! Please try again.")
+            except:
+                pass
     def user_logging_in(username):
         view.logging_in_message(username)
         logger.add('data/logging.log')
