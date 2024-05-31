@@ -126,3 +126,18 @@ def print_project_table(project):
 def duplicated_email():
     rprint("[yellow]This email has already have an account!")
     print("Please try again:")
+    
+def users_table(users, deleting=False):
+    console = Console()
+    table = Table(show_header=True, header_style="bold magenta", show_lines=True)
+    table.add_column("index")
+    if (deleting):
+        table.add_column("usersname")
+        table.add_column("ID", style="yellow")
+    else:
+        table.add_column("usersname", style="yellow")
+        table.add_column("ID")
+
+    for i in range(len(users)):
+        table.add_row(str(i+1), users[i]['username'], users[i]['user_id'])
+    console.print(table)

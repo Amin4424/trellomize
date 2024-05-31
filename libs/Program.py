@@ -9,6 +9,7 @@ from pathlib import Path
 from rich import print as rprint
 import uuid
 import os
+from time import sleep
 """Here is for all program menu it's possible to replace it with Graphic Interface
     Because the interface and back are independent
     rest files are back of the file like :
@@ -73,10 +74,9 @@ class Program :
                 try:
                     with open("data/users.json",mode='r') as feedsjson:
                         users = json.load(feedsjson)
-                        print('Which user to you want to deactive?')
-                        for i in range(len(users)):
-                            rprint(str(i+1) + ('.') + users[i]['username'] + ' ID: ' + users[i]['user_id'])
-                        print('Enter the username for deactivating:')
+                        rprint('[yellow]Which user to you want to deactive?')
+                        view.users_table(users)
+                        rprint('Enter the username for [yellow]deactivating:')
                         id_to_deactive = input.get_string()
                         view.rusure()
                         inpt = input.get_string()
@@ -85,15 +85,18 @@ class Program :
                                 if user['username'] == id_to_deactive:
                                     if user['is_active'] == True:
                                         user['is_active'] = False
-                                        print("Deactivating was successful!")
+                                        rprint("[yellow]Deactivating was successful!")
+                                        sleep(2)
                                         with open("data/users.json",mode='w') as feedsjson:
                                             json.dump(users, feedsjson, indent=4)
                                         break
                                     else:
-                                        print("This user is not active!")
+                                        rprint("[yellow]This user is not active!")
+                                        sleep(2)
                                         break
                             else:
-                                print('User not found!')
+                                rprint('[yellow]User not found!')
+                                sleep(2)
                         elif inpt=='n' or inpt=='N':
                             pass
                 except json.JSONDecodeError:
@@ -103,10 +106,9 @@ class Program :
                 try:
                     with open("data/users.json",mode='r') as feedsjson:
                         users = json.load(feedsjson)
-                        print('Wich user to you want to active?')
-                        for i in range(len(users)):
-                            rprint(str(i+1) + ('.') + users[i]['username'] + ' ID: ' + users[i]['user_id'])
-                        print('Enter the user username for activating:')
+                        rprint('[green]Wich user to you want to active?')
+                        view.users_table(users)
+                        rprint('Enter the user [yellow]username[white] for [green]activating:')
                         id_to_deactive = input.get_string()
                         view.rusure()
                         inpt = input.get_string()
@@ -115,15 +117,18 @@ class Program :
                                 if user['username'] == id_to_deactive:
                                     if user['is_active'] == False:
                                         user['is_active'] = True
-                                        print("activating was seccus full!")
+                                        rprint("[green]activating was seccus full!")
+                                        sleep(2)
                                         with open("data/users.json",mode='w') as feedsjson:
                                             json.dump(users, feedsjson, indent=4)
                                         break
                                     else:
-                                        print("This user is already active!")
+                                        rprint("[yellow]This user is already active!")
+                                        sleep(2)
                                         break
                             else:
-                                print('User not found!')
+                                rprint('[yellow]User not found!')
+                                sleep(2)
                         elif inpt=='n' or inpt=='N':
                             pass
                 except json.JSONDecodeError:
@@ -135,10 +140,9 @@ class Program :
                     found = False
                     with open("data/users.json",mode='r') as feedsjson:
                         users = json.load(feedsjson)
-                        print('Wich user to you want to DELETE?')
-                        for i in range(len(users)):
-                            rprint(str(i+1) + ('.') + users[i]['username'] + ' ID: ' + users[i]['user_id'])
-                        print('Enter the user ID for DELETING:')
+                        rprint('[red]Wich user to you want to DELETE?')
+                        view.users_table(users,deleting=True)
+                        rprint('Enter the user [yellow]ID[white] for [red]DELETING:')
                         id_to_deactive = input.get_string()
                         view.rusure()
                         inpt = input.get_string()
@@ -154,8 +158,11 @@ class Program :
                     if found:
                         with open("data/users.json", "w") as f:
                             json.dump(newdata, f, indent=4)
+                        rprint('[green]User has been succusfully [red]DELETED!!') 
+                        sleep(2)   
                     else:
-                        print('User not found!')
+                        rprint('[red]User not found!')
+                        sleep(2)   
                         
                 except json.JSONDecodeError:
                     print("JSONDecode#Error: Could not decode the JSON file")
