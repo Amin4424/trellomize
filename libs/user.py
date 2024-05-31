@@ -1,7 +1,7 @@
 import json
 import libs.view as view
 import libs.get_input as input
-import libs.userhandling as uh
+import libs.Program as uh
 from pathlib import Path
 import time
 import re
@@ -9,7 +9,10 @@ import uuid
 import hashlib
 import os
 salt = "trellomize"
-
+"""In this File all stuufs related to sign in and sign up are gathered
+    Including gmail validation using regex , encoding password , saving datas
+    
+"""
 def hash_password_with_salt(password):
     data_base_password = password + salt
     return hashlib.sha256(data_base_password.encode()).hexdigest()
@@ -38,21 +41,24 @@ class User:
         view.get_name()
         name = input.get_string()
         get_username = False
-        with open("data/users.json", mode='r') as feedsjson:
-                try:
-                    users = json.load(feedsjson)
-                    while True:
-                        view.get_username()
-                        username = input.get_username()
-                        for user in users:
-                            if username == user["username"]:
+        if Path("data/users.json").exists():
+            with open("data/users.json", mode='r') as feedsjson:
+                    try:
+                        users = json.load(feedsjson)
+                        while True:
+                            view.get_username()
+                            username = input.get_username()
+                            for user in users:
+                                if username == user["username"]:
+                                    break
+                            else:
+                                get_username = True
                                 break
-                        else:
-                            get_username = True
-                            break
-                        view.duplicated_user()
-                except json.JSONDecodeError:
-                    user = []
+                            view.duplicated_user()
+                    except json.JSONDecodeError:
+                        users = []
+        else:
+            users=[]
         if not(get_username):
             view.get_username()
             username = input.get_username()
@@ -76,7 +82,6 @@ class User:
         flag_2 = False
         flag_1 = False
         password = input.get_string()
-        print(password)
         if Path ("data/manager.json").exists():
                 with open("data/manager.json",mode='r') as feedsjson:
                     try:
@@ -120,6 +125,8 @@ class User:
                     users = json.load(feedsjson)
                 except json.JSONDecodeError:
                     users = []
+        else:
+            users = []
         with open("data/users.json", mode='w') as feedsjson:
             entry = {}
             entry['name'] = user.name
