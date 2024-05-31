@@ -9,7 +9,37 @@ from pathlib import Path
 from rich import print as rprint
 import uuid
 import os
+"""Here is for all program menu it's possible to replace it with Graphic Interface
+    Because the interface and back are independent
+    rest files are back of the file like :
+    assignment
+    project
+    manager
+    user
+"""
 class Program :
+    def main():
+        os.system('cls')
+        rprint("[medium_purple2]Hello , Welcome to Trellomize")
+        rprint("")
+
+        while True:
+            rprint("[green]1.Sign in")
+            rprint("[bright_white]2.Sign up")
+            rprint("3.[red]Exit")
+            rprint("[royal_blue1]Your choice: ")
+            option = input.get_string()
+            if option == '1':
+                us.User.sign_in()
+                os.system("cls")
+            if option == '2':
+                us.User.sign_up()
+                os.system("cls")
+            if option == '3':
+                exit()
+            if option not in ['1','2','3']:
+                os.system("cls")
+                rprint("Invalid input! Please try again.")
     def user_logging_in(username):
         view.logging_in_message(username)
         logger.add('data/logging.log')
@@ -29,7 +59,7 @@ class Program :
                 break
             elif choice == '4':
                 os.system('cls')
-                us.User.sign_in()
+                Program.main()
             else:
                 print("Invalid input.")
     def manager_logging_in(username):
@@ -149,8 +179,8 @@ class Program :
         while True:
             print('Enter an ID for your project')
             project_ID = input.get_string()
-            if Path("data/project.json").exists():
-                with open("data/project.json", mode='r') as projects_file:
+            if Path("data/projects.json").exists():
+                with open("data/projects.json", mode='r') as projects_file:
                     try:
                         existing_projects = json.load(projects_file)
                         for existing_project in existing_projects:

@@ -2,51 +2,69 @@ import argparse
 import json
 import os
 from pathlib import Path
-from libs import view
-from libs import user
 from hashlib import sha256
 
-#Checks if the manager file is empy
 def is_json_empty(file_path):
     return os.path.isfile(file_path) and os.path.getsize(file_path) == 0
-#How to usee command for managerFile
+
 parser = argparse.ArgumentParser(
     prog='manager.py',
-    usage='python3 {prog} create-admin --username admin --password admin',
-    description='A program to manage admins.'
+    description='A program to create an admin.'
 )
 
-parser.add_argument('command', help='The command to execute')
-parser.add_argument('--username', required=True, help='The username for the admin')
-parser.add_argument('--password', required=True, help='The password for the admin')
+subparsers = parser.add_subparsers(dest='command', required=True)
+
+# Create admin command
+create_admin_parser = subparsers.add_parser('create-admin', help='Create an admin')
+create_admin_parser.add_argument('--username', required=True, help='The username for the admin')
+create_admin_parser.add_argument('--password', required=True, help='The password for the admin')
+
+# Purge data command
+purge_data_parser = subparsers.add_parser('purge-data', help='Clear all data')
 
 args = parser.parse_args()
-
-parser1 = argparse.ArgumentParser(
-    prog = 'manager.py',
-    usage = 'python3 {prog} purge-data',
-    description= 'To clear all datas'
-)
-parser1.add_argument('command' , help='The command to execute')
-parser1.add_argument('purge-data' , required=True , help='To clear datas')
-args = parser1.parse_args()
-
-if args.username and args.password:
-    manager_details = {"username": args.username, "password": sha256(args.password.encode('utf-8')).hexdigest()}
+if args.command == 'create-admin':
     manager_details = {"username": args.username, "password": args.password}
-    file_path=Path('data/manager.json')
-    if is_json_empty('data/manager.json') or not (file_path.exists()):
-        with open('data/manager.json', 'w') as f:
-            with open("data/users.json", mode='r') as feedsjson:
-                try:
-                    users = json.load(feedsjson)
-                    for user in users:
-                        if args.username == user["username"]:
-                            view.duplicated_user()
-                            break
-                    else:
-                        json.dump(manager_details, f, indent=4)                       
-                except json.JSONDecodeError:
-                    print("JSONDecode#Error: Could not decode the JSON file")
+
+    manager_file_path = "data/manager.json"
+
+    if Path(manager_file_path).exists():
+        try:
+            with open(manager_file_path, mode='r') as manager_file:
+                manager = json.load(manager_file)
+                print("Manager already exists")
+        except json.JSONDecodeError:
+            manager = {}
     else:
-        print("The manager is already registered")
+        manager = {}
+
+    manager["username"] = args.username
+    manager["password"] = args.password
+
+    with open(manager_file_path, mode='w') as manager_file:
+        json.dump(manager, manager_file, indent=4)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+if args.command == 'purge-data':
+    print("Are you sure you want to delete all datas? [Y/n]")
+    choice = input()
+    if choice in ['y', 'yes']:
+        files_to_delete = [
+            "data/assignments.json",
+            "data/projects.json",
+            "data/users.json",
+            "data/logging.log",
+            "data/logfile.log",
+            "data/manager.json"
+        ]   
+        # Clears all datas in data folder
+        for file_path in files_to_delete:
+            abs_file_path = os.path.join(script_dir, file_path)
+            if Path(abs_file_path).exists():
+                os.remove(abs_file_path)
+                print(f"Deleted {file_path}")
+
+        print("All data files deleted.")
+    else:
+        print("Data deletion canceled.")
+
+    

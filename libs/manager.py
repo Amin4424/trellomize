@@ -3,6 +3,11 @@ import libs.get_input as input
 import libs.view as view
 import json
 import pathlib as Path
+"""Here is a menu for manager
+    To activate a user
+    To deactivate a user
+    To Remove a user
+"""
 class Manager(user.User):
     
     def __init__(self, name, username, password, email):
