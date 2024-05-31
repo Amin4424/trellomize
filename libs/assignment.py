@@ -159,6 +159,20 @@ class Task:
                                     get_name_of_project = True
                                     id_of_project = project['ID']
                                     break
+                        if counter == 0:
+                            os.system('cls')
+                            rprint("You don't have any projects")
+                            time.sleep(2)
+                            uh.Program.menu_after_logging_user(username)
+                        counter =0
+                        choice = input('Enter your choice : ')
+                        for project in projects:
+                            if project['leader'] ==username:
+                                counter+=1
+                                if choice == str(counter):
+                                    get_name_of_project = True
+                                    id_of_project = project['ID']
+                                    break
                         else:
                             os.system('cls')
                             rprint("Please enter a valid name .")
@@ -394,7 +408,7 @@ class Task:
                                         rprint("There is no task for that project")
                                         time.sleep(3)
                                         uh.Program.menu_after_logging_user('cls')
-                                        
+
                 except json.JSONDecodeError:
                     os.system('cls')
                     rprint("You don't have any projects")
@@ -469,7 +483,7 @@ class Task:
                             assignment = Task.change_deadline(assignment , username)
                             view.print_task_table(assignment)
                         if choice == '7':
-                            break   
+                            break
                         else:
                             print("Enter a valid input")
                     with open("data/assignments.json" , mode='w') as updated_file:
@@ -585,9 +599,9 @@ class Task:
         assignment['starting_point'] = str(future_date)
         log.announcement.info(username + " changed the starting point of the " + assignment['id_of_project'] + " project.")
         return assignment
-        
-        
-        
+
+
+
     def change_deadline(assignment , username):
         os.system('cls')
         while True:
@@ -603,7 +617,7 @@ class Task:
         assignment['deadline'] = str(future_date)
         log.announcement.info(username + " changed the deadline of the " + assignment['id_of_project'] + " project.")
         return assignment
-        
+
     def see_all_projects(username):
         os.system('cls')
         if Path("data/projects.json").exists() and Path("data/assignments.json").exists():

@@ -9,6 +9,8 @@ from pathlib import Path
 from rich import print as rprint
 import uuid
 import os
+from time import sleep
+from libs.get_input import rusure
 """Here is for all program menu it's possible to replace it with Graphic Interface
     Because the interface and back are independent
     rest files are back of the file like :
@@ -24,22 +26,28 @@ class Program :
         rprint("")
 
         while True:
-            rprint("[green]1.Sign in")
-            rprint("[bright_white]2.Sign up")
-            rprint("3.[red]Exit")
-            rprint("[royal_blue1]Your choice: ")
-            option = input.get_string()
-            if option == '1':
-                us.User.sign_in()
-                os.system("cls")
-            if option == '2':
-                us.User.sign_up()
-                os.system("cls")
-            if option == '3':
-                exit()
-            if option not in ['1','2','3']:
-                os.system("cls")
-                rprint("Invalid input! Please try again.")
+            option = ''
+            try:
+                rprint("1.[green]Sign in")
+                rprint("2.[bright_white]Sign up")
+                rprint("3.[red]Exit")
+                rprint("[royal_blue1]Your choice: ")
+                option = input.get_string()
+                if option == '1':
+                    us.User.sign_in()
+                    os.system("cls")
+                if option == '2':
+                    us.User.sign_up()
+                    os.system("cls")
+                if option == '3':
+                    exit()
+                if option not in ['1','2','3']:
+                    os.system("cls")
+                    rprint("Invalid input! Please try again.")
+            except:
+                if option == '3':
+                    exit(0)
+                view.for_exit()
     def user_logging_in(username):
         view.logging_in_message(username)
         logger.add('data/logging.log')
@@ -73,28 +81,29 @@ class Program :
                 try:
                     with open("data/users.json",mode='r') as feedsjson:
                         users = json.load(feedsjson)
-                        print('Which user to you want to deactive?')
-                        for i in range(len(users)):
-                            rprint(str(i+1) + ('.') + users[i]['username'] + ' ID: ' + users[i]['user_id'])
-                        print('Enter the username for deactivating:')
+                        rprint('[yellow]Which user to you want to deactive?')
+                        view.users_table(users)
+                        rprint('Enter the username for [yellow]deactivating:')
                         id_to_deactive = input.get_string()
-                        view.rusure()
-                        inpt = input.get_string()
-                        if inpt=='y' or inpt=='Y':
+                        sure = rusure()
+                        if sure:
                             for user in users:
                                 if user['username'] == id_to_deactive:
                                     if user['is_active'] == True:
                                         user['is_active'] = False
-                                        print("Deactivating was successful!")
+                                        rprint("[yellow]Deactivating was successful!")
+                                        sleep(2)
                                         with open("data/users.json",mode='w') as feedsjson:
                                             json.dump(users, feedsjson, indent=4)
                                         break
                                     else:
-                                        print("This user is not active!")
+                                        rprint("[yellow]This user is not active!")
+                                        sleep(2)
                                         break
                             else:
-                                print('User not found!')
-                        elif inpt=='n' or inpt=='N':
+                                rprint('[yellow]User not found!')
+                                sleep(2)
+                        else:
                             pass
                 except json.JSONDecodeError:
                     print("JSONDecode#Error: Could not decode the JSON file")
@@ -103,28 +112,29 @@ class Program :
                 try:
                     with open("data/users.json",mode='r') as feedsjson:
                         users = json.load(feedsjson)
-                        print('Wich user to you want to active?')
-                        for i in range(len(users)):
-                            rprint(str(i+1) + ('.') + users[i]['username'] + ' ID: ' + users[i]['user_id'])
-                        print('Enter the user username for activating:')
+                        rprint('[green]Wich user to you want to active?')
+                        view.users_table(users)
+                        rprint('Enter the user [yellow]username[white] for [green]activating:')
                         id_to_deactive = input.get_string()
-                        view.rusure()
-                        inpt = input.get_string()
-                        if inpt=='y' or inpt=='Y':
+                        sure = rusure()
+                        if sure:
                             for user in users:
                                 if user['username'] == id_to_deactive:
                                     if user['is_active'] == False:
                                         user['is_active'] = True
-                                        print("activating was seccus full!")
+                                        rprint("[green]activating was seccus full!")
+                                        sleep(2)
                                         with open("data/users.json",mode='w') as feedsjson:
                                             json.dump(users, feedsjson, indent=4)
                                         break
                                     else:
-                                        print("This user is already active!")
+                                        rprint("[yellow]This user is already active!")
+                                        sleep(2)
                                         break
                             else:
-                                print('User not found!')
-                        elif inpt=='n' or inpt=='N':
+                                rprint('[yellow]User not found!')
+                                sleep(2)
+                        else:
                             pass
                 except json.JSONDecodeError:
                     print("JSONDecode#Error: Could not decode the JSON file")
@@ -135,27 +145,28 @@ class Program :
                     found = False
                     with open("data/users.json",mode='r') as feedsjson:
                         users = json.load(feedsjson)
-                        print('Wich user to you want to DELETE?')
-                        for i in range(len(users)):
-                            rprint(str(i+1) + ('.') + users[i]['username'] + ' ID: ' + users[i]['user_id'])
-                        print('Enter the user ID for DELETING:')
+                        rprint('[red]Wich user to you want to DELETE?')
+                        view.users_table(users,deleting=True)
+                        rprint('Enter the user [yellow]ID[white] for [red]DELETING:')
                         id_to_deactive = input.get_string()
-                        view.rusure()
-                        inpt = input.get_string()
-                        if inpt=='y' or inpt=='Y':
+                        sure = rusure()
+                        if sure:
                             for user in users:
                                 if user['user_id'] == id_to_deactive:
                                     found = True
                                     pass
                                 else:
                                     newdata.append(user)
-                        elif inpt=='n' or inpt=='N':
+                        else:
                             pass
                     if found:
                         with open("data/users.json", "w") as f:
                             json.dump(newdata, f, indent=4)
+                        rprint('[green]User has been succusfully [red]DELETED!!')
+                        sleep(2)
                     else:
-                        print('User not found!')
+                        rprint('[red]User not found!')
+                        sleep(2)
                         
                 except json.JSONDecodeError:
                     print("JSONDecode#Error: Could not decode the JSON file")

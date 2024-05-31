@@ -2,8 +2,11 @@ import argparse
 import json
 import os
 from pathlib import Path
+from libs import view
+from libs import user
 from hashlib import sha256
 
+#Checks if the manager file is empy
 def is_json_empty(file_path):
     return os.path.isfile(file_path) and os.path.getsize(file_path) == 0
 
@@ -42,7 +45,7 @@ if args.command == 'create-admin':
         manager["username"] = args.username
         manager["password"] = args.password
 
-    
+
 
     with open(manager_file_path, mode='w') as manager_file:
         json.dump(manager, manager_file, indent=4)
@@ -58,7 +61,7 @@ if args.command == 'purge-data':
             "data/logging.log",
             "data/logfile.log",
             "data/manager.json"
-        ]   
+        ]
         # Clears all datas in data folder
         for file_path in files_to_delete:
             abs_file_path = os.path.join(script_dir, file_path)
@@ -70,4 +73,4 @@ if args.command == 'purge-data':
     else:
         print("Data deletion canceled.")
 
-    
+

@@ -41,6 +41,7 @@ class User:
         view.get_name()
         name = input.get_string()
         get_username = False
+        users = []
         if Path("data/users.json").exists():
             with open("data/users.json", mode='r') as feedsjson:
                     try:
@@ -70,7 +71,12 @@ class User:
             if is_valid_email(email)==False:
                 view.invalid_email()
             else:
-                break
+                for user in users:
+                    if email == user["email"]:
+                        view.duplicated_email()
+                        break
+                else:
+                    break
         new_user = User(name, username, password, email)
         view.success_sign_up()
 
@@ -81,7 +87,7 @@ class User:
         view.sign_in_password()
         flag_2 = False
         flag_1 = False
-        password = input.get_string()
+        password = hash_password_with_salt(input.get_string())
         if Path ("data/manager.json").exists():
                 with open("data/manager.json",mode='r') as feedsjson:
                     try:
@@ -92,7 +98,6 @@ class User:
                         users=[]
                         flag_1 = True
         if Path("data/users.json").exists():
-                password = hash_password_with_salt(password)
                 with open("data/users.json",mode='r') as feedsjson:
                     try:
                         users = json.load(feedsjson)
@@ -102,9 +107,9 @@ class User:
                                     os.system('cls')
                                     print("Your account is deactived by the manager")
                                     time.sleep(3)
-                                elif user['username'] == username and user['password'] ==password:
+                                elif user['username'] == username and user['password'] == password:
                                     uh.Program.user_logging_in(username)
-                                elif user['username'] == username and user['password'] != password:
+                                else:
                                     view.invalid_username_password()
                         
                     except json.JSONDecodeError:

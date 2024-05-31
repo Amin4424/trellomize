@@ -4,7 +4,7 @@ from rich import print  as rprint
 from rich.table import Table
 from rich.console import Console
 def wrong_input():
-    print(" [steel_blue3][Error]: Please enter a valid input!")
+    rprint("[steel_blue3][Error]: Please enter a valid input!")
 
 def get_name():
     os.system('cls')
@@ -22,9 +22,10 @@ def get_email():
 def alreay_exist():
     print("[orange4]This username has already exist!\nPlesae enter another one:")
 def invalid_email():
-    print("Your email is not valid. Please try again:")
+    rprint("[yellow]Your email is not valid.")
+    print("Please try again:")
 def invalid_username_password():
-    print("Your username or password is not valid.Please try again.")
+    rprint("[red]Your username or password is not valid.Please try again.")
     sleep(1)
 def sign_in_username():
     rprint("[dodger_blue1]Please enter your username:")
@@ -45,7 +46,7 @@ def menu_for_manager():
     rprint("1.[yellow]Deactive a user")
     rprint("2.[green]Active a user")
     rprint("3.[red]Delete a user")
-    rprint("4[blue_violet].Loging out")
+    rprint("4.[blue_violet]Loging out")
     
 def rusure():
     print('[medium_purple]Are you sure?(y/n)')
@@ -54,15 +55,15 @@ def get_name_of_project():
     rprint('[wheat1]Enter the name of the project that you want to remove')
 def menu_work_on_project():
     os.system('cls')
-    rprint("[light_green]1.Add a user to project")
+    rprint("1.[light_green]Add a user to project")
     rprint("2.[light_sky_blue3]Remove a user from a project")
-    rprint("[dark_sea_green]3.Add an assignment for project")
+    rprint("3.[dark_sea_green]Add an assignment for project")
     rprint("4.[red]Remove an assignment from project")
     rprint("5.[magenta2]Assign an assignment to a user")
     rprint("6.[light_goldenrod3]Remove assignment from user")
     rprint("7.[sky_blue1]Work on assignment")
     rprint("8.[dark_olive_green3]See all assignments")
-    rprint("9[khaki3].Return")
+    rprint("9.[khaki3]Return")
 def print_task_table(task):
     console = Console()
 
@@ -121,3 +122,26 @@ def print_project_table(project):
         ', '.join(project['list_of_members']),
         project['title'],)
     console.print(table)
+    
+def duplicated_email():
+    rprint("[yellow]This email has already have an account!")
+    print("Please try again:")
+    
+def users_table(users, deleting=False):
+    console = Console()
+    table = Table(show_header=True, header_style="bold magenta", show_lines=True)
+    table.add_column("index")
+    if (deleting):
+        table.add_column("usersname")
+        table.add_column("ID", style="yellow")
+    else:
+        table.add_column("usersname", style="yellow")
+        table.add_column("ID")
+
+    for i in range(len(users)):
+        table.add_row(str(i+1), users[i]['username'], users[i]['user_id'])
+    console.print(table)
+    
+def for_exit():
+    os.system("cls")
+    rprint("[red]Enter '3' to exit!")
