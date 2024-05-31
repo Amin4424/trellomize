@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 from hashlib import sha256
+from libs import user
 
 def is_json_empty(file_path):
     return os.path.isfile(file_path) and os.path.getsize(file_path) == 0
@@ -24,7 +25,7 @@ purge_data_parser = subparsers.add_parser('purge-data', help='Clear all data')
 
 args = parser.parse_args()
 if args.command == 'create-admin':
-    manager_details = {"username": args.username, "password": args.password}
+    manager_details = {"username": args.username, "password": user.hash_password_with_salt(args.password)}
 
     manager_file_path = "data/manager.json"
 
@@ -33,13 +34,14 @@ if args.command == 'create-admin':
             with open(manager_file_path, mode='r') as manager_file:
                 manager = json.load(manager_file)
                 print("Manager already exists")
+                exit(0)
         except json.JSONDecodeError:
             manager = {}
     else:
         manager = {}
 
     manager["username"] = args.username
-    manager["password"] = args.password
+    manager["password"] = user.hash_password_with_salt(args.password)
 
     with open(manager_file_path, mode='w') as manager_file:
         json.dump(manager, manager_file, indent=4)

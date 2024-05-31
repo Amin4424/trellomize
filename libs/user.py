@@ -81,7 +81,7 @@ class User:
         view.sign_in_password()
         flag_2 = False
         flag_1 = False
-        password = input.get_string()
+        password = hash_password_with_salt(input.get_string())
         if Path ("data/manager.json").exists():
                 with open("data/manager.json",mode='r') as feedsjson:
                     try:
@@ -92,7 +92,6 @@ class User:
                         users=[]
                         flag_1 = True
         if Path("data/users.json").exists():
-                password = hash_password_with_salt(password)
                 with open("data/users.json",mode='r') as feedsjson:
                     try:
                         users = json.load(feedsjson)
