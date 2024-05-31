@@ -24,8 +24,8 @@ class Program :
         rprint("")
 
         while True:
-            rprint("[green]1.Sign in")
-            rprint("[bright_white]2.Sign up")
+            rprint("1.[green]Sign in")
+            rprint("2.[bright_white]Sign up")
             rprint("3.[red]Exit")
             rprint("[royal_blue1]Your choice: ")
             option = input.get_string()

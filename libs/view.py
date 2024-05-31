@@ -45,7 +45,7 @@ def menu_for_manager():
     rprint("1.[yellow]Deactive a user")
     rprint("2.[green]Active a user")
     rprint("3.[red]Delete a user")
-    rprint("4[blue_violet].Loging out")
+    rprint("4.[blue_violet]Loging out")
     
 def rusure():
     print('[medium_purple]Are you sure?(y/n)')
@@ -54,15 +54,15 @@ def get_name_of_project():
     rprint('[wheat1]Enter the name of the project that you want to remove')
 def menu_work_on_project():
     os.system('cls')
-    rprint("[light_green]1.Add a user to project")
+    rprint("1.[light_green]Add a user to project")
     rprint("2.[light_sky_blue3]Remove a user from a project")
-    rprint("[dark_sea_green]3.Add an assignment for project")
+    rprint("3.[dark_sea_green]Add an assignment for project")
     rprint("4.[red]Remove an assignment from project")
     rprint("5.[magenta2]Assign an assignment to a user")
     rprint("6.[light_goldenrod3]Remove assignment from user")
     rprint("7.[sky_blue1]Work on assignment")
     rprint("8.[dark_olive_green3]See all assignments")
-    rprint("9[khaki3].Return")
+    rprint("9.[khaki3]Return")
 def print_task_table(task):
     console = Console()
 
